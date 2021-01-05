@@ -11,3 +11,7 @@
 * [数组 链表 跳表](shu-zu-lian-biao-tiao-biao.md)
 * [bash](bash.md)
 
+## Effective Go
+
+* [go module原理](effective-go/go-module-yuan-li.md)
+
