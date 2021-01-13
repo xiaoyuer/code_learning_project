@@ -13,5 +13,6 @@
 
 ## Effective Go
 
+* [gc垃圾回收](effective-go/gc-la-ji-hui-shou.md)
 * [go module原理](effective-go/go-module-yuan-li.md)
 
