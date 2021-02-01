@@ -20,3 +20,11 @@
 
 * [context Go语言库标准](context-go-yu-yan-ku-biao-zhun.md)
 
+## 并行
+
+* [按序打印](bing-hang/an-xu-da-yin.md)
+
+## 高度缓存与一致性
+
+* [cache原理](gao-du-huan-cun-yu-yi-zhi-xing/cache-yuan-li.md)
+
