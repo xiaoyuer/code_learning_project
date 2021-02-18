@@ -432,5 +432,5 @@ def res(self) -> None:
 
 线下测试运行十次全排列的时间对比，反复运行下来，大体上除了第一种，后面几种方法阻塞效率区分不大，谁快谁慢偶然性很高：
 
-![](../.gitbook/assets/image%20%2826%29.png)
+![](../.gitbook/assets/image%20%2827%29.png)
 
