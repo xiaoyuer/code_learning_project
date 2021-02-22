@@ -47,3 +47,7 @@
 
 * [关系型数据库](database/guan-xi-xing-shu-ju-ku.md)
 
+## Go-Basic
+
+* [Why Go-Key advantages](go-basic/why-go-key-advantages.md)
+
