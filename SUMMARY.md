@@ -50,4 +50,5 @@
 ## Go-Basic
 
 * [Why Go-Key advantages](go-basic/why-go-key-advantages.md)
+* [The 3 ways to sort in Go](go-basic/the-3-ways-to-sort-in-go.md)
 
