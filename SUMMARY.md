@@ -51,6 +51,9 @@
 
 * [Why Go-Key advantages](go-basic/why-go-key-advantages.md)
 * [Type, value and equality of interfaces](go-basic/type-value-and-equality-of-interfaces.md)
+* [Nil is not nil](go-basic/nil-is-not-nil.md)
+* [Create, initialize and compare structs](go-basic/create-initialize-and-compare-structs.md)
+* [Maps explained: create, add, get, delete](go-basic/maps-explained-create-add-get-delete.md)
 * [The 3 ways to sort in Go](go-basic/the-3-ways-to-sort-in-go.md)
 
 ## Pattern Design <a id="mo-shi-shi-bie"></a>

@@ -114,5 +114,9 @@ for _, k := range keys {
 
 //sorted but not change order
 
+further reading
+
+[https://yourbasic.org/golang/slices-explained/](https://yourbasic.org/golang/slices-explained/)
+
 
 
