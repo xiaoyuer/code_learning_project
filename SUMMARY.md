@@ -50,5 +50,6 @@
 ## Go-Basic
 
 * [Why Go-Key advantages](go-basic/why-go-key-advantages.md)
+* [Type, value and equality of interfaces](go-basic/type-value-and-equality-of-interfaces.md)
 * [The 3 ways to sort in Go](go-basic/the-3-ways-to-sort-in-go.md)
 
