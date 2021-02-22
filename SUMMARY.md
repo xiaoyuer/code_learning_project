@@ -53,3 +53,11 @@
 * [Type, value and equality of interfaces](go-basic/type-value-and-equality-of-interfaces.md)
 * [The 3 ways to sort in Go](go-basic/the-3-ways-to-sort-in-go.md)
 
+## Pattern Design <a id="mo-shi-shi-bie"></a>
+
+* [Untitled](mo-shi-shi-bie/untitled.md)
+
+## 编译原理
+
+* [Untitled](bian-yi-yuan-li/untitled.md)
+
