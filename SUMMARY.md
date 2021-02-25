@@ -51,11 +51,14 @@
 
 * [Why Go-Key advantages](go-basic/why-go-key-advantages.md)
 * [Type, value and equality of interfaces](go-basic/type-value-and-equality-of-interfaces.md)
-* [Nil is not nil](go-basic/nil-is-not-nil.md)
 * [Create, initialize and compare structs](go-basic/create-initialize-and-compare-structs.md)
 * [Maps explained: create, add, get, delete](go-basic/maps-explained-create-add-get-delete.md)
 * [5 basic for loop patterns](go-basic/5-basic-for-loop-patterns.md)
 * [5 switch statement patterns](go-basic/5-switch-statement-patterns.md)
+* [Packages explained: declare, import, download, document](go-basic/packages-explained-declare-import-download-document.md)
+* [27 Go Gotcha Ninja Pitfalls](go-basic/27-go-gotcha-ninja-pitfalls.md)
+* [Go Tutorial](go-basic/go-tutorial.md)
+* [CheetSheet](go-basic/cheetsheet.md)
 * [The 3 ways to sort in Go](go-basic/the-3-ways-to-sort-in-go.md)
 
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
