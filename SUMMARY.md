@@ -59,7 +59,7 @@
 * [27 Go Gotcha Ninja Pitfalls](go-basic/27-go-gotcha-ninja-pitfalls.md)
 * [Go Tutorial](go-basic/go-tutorial.md)
 * [CheetSheet](go-basic/cheetsheet.md)
-* [The 3 ways to sort in Go](go-basic/the-3-ways-to-sort-in-go.md)
+* [Go Code For Common Tasks](go-basic/2-basic-fifo-queue-implementations.md)
 * [Untitled](go-basic/untitled.md)
 
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
@@ -72,5 +72,5 @@
 
 ## Go Code For Common Tasks
 
-* [2 basic FIFO queue implementations](go-code-for-common-tasks/2-basic-fifo-queue-implementations.md)
+* [2 basic set implementations](go-code-for-common-tasks/2-basic-set-implementations.md)
 
