@@ -60,6 +60,7 @@
 * [Go Tutorial](go-basic/go-tutorial.md)
 * [CheetSheet](go-basic/cheetsheet.md)
 * [The 3 ways to sort in Go](go-basic/the-3-ways-to-sort-in-go.md)
+* [Untitled](go-basic/untitled.md)
 
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
 
@@ -68,4 +69,8 @@
 ## 编译原理
 
 * [Untitled](bian-yi-yuan-li/untitled.md)
+
+## Go Code For Common Tasks
+
+* [2 basic FIFO queue implementations](go-code-for-common-tasks/2-basic-fifo-queue-implementations.md)
 
