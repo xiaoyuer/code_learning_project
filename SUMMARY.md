@@ -60,7 +60,7 @@
 * [Go Tutorial](go-basic/go-tutorial.md)
 * [CheetSheet](go-basic/cheetsheet.md)
 * [Go Code For Common Tasks](go-basic/2-basic-fifo-queue-implementations.md)
-* [Untitled](go-basic/untitled.md)
+* [Concurrent programming](go-basic/untitled.md)
 
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
 
@@ -70,7 +70,7 @@
 
 * [Untitled](bian-yi-yuan-li/untitled.md)
 
-## Go Code For Common Tasks
+## Linux <a id="go-code-for-common-tasks"></a>
 
-* [2 basic set implementations](go-code-for-common-tasks/2-basic-set-implementations.md)
+* [Basic Command](go-code-for-common-tasks/2-basic-set-implementations.md)
 
