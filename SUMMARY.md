@@ -61,6 +61,7 @@
 * [CheetSheet](go-basic/cheetsheet.md)
 * [Go Code For Common Tasks](go-basic/2-basic-fifo-queue-implementations.md)
 * [Concurrent programming](go-basic/untitled.md)
+* [协程（goroutine）与通道（channel）](go-basic/xie-cheng-goroutine-yu-tong-dao-channel.md)
 
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
 
