@@ -668,5 +668,65 @@ func main() {
 fatal error: all goroutines are asleep - deadlock!
 ```
 
+## Timer and Ticker: events in the future
 
+Timers and Tickers let you execute code in the future, once or repeatedly.
+
+### Timeout \(Timer\) <a id="timeout-timer"></a>
+
+[`time.After`](https://golang.org/pkg/time/#After) waits for a specified duration and then sends the current time on the returned channel:
+
+```text
+select {
+case news := <-AFP:
+	fmt.Println(news)
+case <-time.After(time.Hour):
+	fmt.Println("No news in an hour.")
+}
+```
+
+The underlying [`time.Timer`](https://golang.org/pkg/time/#Timer) will not be recovered by the garbage collector until the timer fires. If this is a concern, use [`time.NewTimer`](https://golang.org/pkg/time/#NewTimer) instead and call its [`Stop`](https://golang.org/pkg/time/#Timer.Stop) method when the timer is no longer needed:
+
+```text
+for alive := true; alive; {
+	timer := time.NewTimer(time.Hour)
+	select {
+	case news := <-AFP:
+		timer.Stop()
+		fmt.Println(news)
+	case <-timer.C:
+		alive = false
+		fmt.Println("No news in an hour. Service aborting.")
+	}
+}
+```
+
+### Repeat \(Ticker\) <a id="repeat-ticker"></a>
+
+[`time.Tick`](https://golang.org/pkg/time/#Tick) returns a channel that delivers clock ticks at even intervals:
+
+```text
+go func() {
+	for now := range time.Tick(time.Minute) {
+		fmt.Println(now, statusUpdate())
+	}
+}()
+```
+
+The underlying [`time.Ticker`](https://golang.org/pkg/time/#Ticker) will not be recovered by the garbage collector. If this is a concern, use [`time.NewTicker`](https://golang.org/pkg/time/#NewTicker) instead and call its [`Stop`](https://golang.org/pkg/time/#Timer.Stop) method when the ticker is no longer needed.
+
+### Wait, act and cancel <a id="wait-act-and-cancel"></a>
+
+[`time.AfterFunc`](https://golang.org/pkg/time/#AfterFunc) waits for a specified duration and then calls a function in its own goroutine. It returns a [`time.Timer`](https://golang.org/pkg/time/#Timer) that can be used to cancel the call:
+
+```text
+func Foo() {
+    timer = time.AfterFunc(time.Minute, func() {
+        log.Println("Foo run for more than a minute.")
+    })
+    defer timer.Stop()
+
+    // Do heavy work
+}
+```
 
