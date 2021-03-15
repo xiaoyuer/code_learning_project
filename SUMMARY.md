@@ -39,6 +39,7 @@
 * [Linux下I/O多路复用系统调用\(select, poll, epoll\)介绍](io-duo-lu-fu-yong/linux-xia-io-duo-lu-fu-yong-xi-tong-tiao-yong-select-poll-epoll-jie-shao.md)
 * [如何理解：程序、进程、线程、并发、并行、高并发？](io-duo-lu-fu-yong/ru-he-li-jie-cheng-xu-jin-cheng-xian-cheng-bing-fa-bing-hang-gao-bing-fa.md)
 * [Untitled](io-duo-lu-fu-yong/untitled-1.md)
+* [Untitled](io-duo-lu-fu-yong/untitled-2.md)
 
 ## Http/Https
 
@@ -63,7 +64,9 @@
 * [Go Code For Common Tasks](go-basic/2-basic-fifo-queue-implementations.md)
 * [Concurrent programming](go-basic/untitled.md)
 * [协程（goroutine）与通道（channel）](go-basic/xie-cheng-goroutine-yu-tong-dao-channel.md)
-* [Untitled](go-basic/untitled-1.md)
+* [Object-oriented programming without inheritance](go-basic/untitled-1.md)
+* [Functional Programming](go-basic/functional-programming.md)
+* [Scripting](go-basic/scripting.md)
 
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
 
@@ -76,4 +79,8 @@
 ## Linux <a id="go-code-for-common-tasks"></a>
 
 * [Basic Command](go-code-for-common-tasks/2-basic-set-implementations.md)
+
+## The Way to Go
+
+* [Chap1](the-way-to-go/chap1.md)
 
