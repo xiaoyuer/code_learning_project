@@ -67,6 +67,7 @@
 * [Object-oriented programming without inheritance](go-basic/untitled-1.md)
 * [Functional Programming](go-basic/functional-programming.md)
 * [Scripting](go-basic/scripting.md)
+* [Strings](go-basic/strings.md)
 
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
 
@@ -80,7 +81,7 @@
 
 * [Basic Command](go-code-for-common-tasks/2-basic-set-implementations.md)
 
-## The Way to Go
+## Blogers <a id="the-way-to-go"></a>
 
-* [Chap1](the-way-to-go/chap1.md)
+* [Da-Kuan-Kuan](the-way-to-go/chap1.md)
 
