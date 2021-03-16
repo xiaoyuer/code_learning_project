@@ -71,7 +71,7 @@
 
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
 
-* [Untitled](mo-shi-shi-bie/untitled.md)
+* [工厂模式（factory Method）的本质是什么？为什么引入工厂模式？](mo-shi-shi-bie/untitled.md)
 
 ## 编译原理
 
