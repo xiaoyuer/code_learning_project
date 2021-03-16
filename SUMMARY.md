@@ -85,3 +85,7 @@
 
 * [Da-Kuan-Kuan](the-way-to-go/chap1.md)
 
+## Guides
+
+* [技术团队有哪些一开始就一定要严格执行的开发规范？](guides/ji-shu-tuan-dui-you-na-xie-yi-kai-shi-jiu-yi-ding-yao-yan-ge-zhi-hang-de-kai-fa-gui-fan.md)
+
