@@ -98,6 +98,8 @@
 
 * [Da-Kuan-Kuan](the-way-to-go/chap1.md)
 * [Career guide-GIT](the-way-to-go/career-guide-git.md)
+* [Medium Vincent Blanchon Golang Guide](the-way-to-go/medium-vincent-blanchon-golang-guide.md)
+* [draveness golang Go 语言设计与实现](the-way-to-go/draveness-golang-go-yu-yan-she-ji-yu-shi-xian.md)
 
 ## Guides
 
