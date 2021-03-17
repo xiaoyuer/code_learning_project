@@ -85,6 +85,7 @@
 ## Blogers <a id="the-way-to-go"></a>
 
 * [Da-Kuan-Kuan](the-way-to-go/chap1.md)
+* [Career guide-GIT](the-way-to-go/career-guide-git.md)
 
 ## Guides
 
