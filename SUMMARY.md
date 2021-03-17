@@ -1,6 +1,6 @@
 # Table of contents
 
-* [目录](README.md)
+* [Learning Map](README.md)
 
 ## ALgs
 
@@ -104,4 +104,10 @@
 ## Guides
 
 * [技术团队有哪些一开始就一定要严格执行的开发规范？](guides/ji-shu-tuan-dui-you-na-xie-yi-kai-shi-jiu-yi-ding-yao-yan-ge-zhi-hang-de-kai-fa-gui-fan.md)
+
+## Shell
+
+* [Grep and Sed](shell/grep-and-sed.md)
+* [AWK](shell/awk.md)
+* [Shell Variable and Command Line](shell/shell-variable-and-command-line.md)
 
