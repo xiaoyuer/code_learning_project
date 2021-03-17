@@ -27,6 +27,18 @@
 * [cache原理](gao-du-huan-cun-yu-yi-zhi-xing/cache-yuan-li.md)
 * [Cache组织方式](gao-du-huan-cun-yu-yi-zhi-xing/cache-zu-zhi-fang-shi.md)
 * [Cache对代码的影响](gao-du-huan-cun-yu-yi-zhi-xing/cache-dui-dai-ma-de-ying-xiang.md)
+* [TLB原理](gao-du-huan-cun-yu-yi-zhi-xing/tlb-yuan-li.md)
+* [Cache和DMA一致性](gao-du-huan-cun-yu-yi-zhi-xing/cache-he-dma-yi-zhi-xing.md)
+* [iCache和dCache一致性](gao-du-huan-cun-yu-yi-zhi-xing/icache-he-dcache-yi-zhi-xing.md)
+* [多核Cache一致性](gao-du-huan-cun-yu-yi-zhi-xing/duo-he-cache-yi-zhi-xing.md)
+* [atomic实现原理](gao-du-huan-cun-yu-yi-zhi-xing/atomic-shi-xian-yuan-li.md)
+* [伪共享](gao-du-huan-cun-yu-yi-zhi-xing/wei-gong-xiang.md)
+* [spinlock前世今生](gao-du-huan-cun-yu-yi-zhi-xing/spinlock-qian-shi-jin-sheng.md)
+* [内存一致性模型-TSO](gao-du-huan-cun-yu-yi-zhi-xing/nei-cun-yi-zhi-xing-mo-xing-tso.md)
+* [内存一致性模型-PSO](gao-du-huan-cun-yu-yi-zhi-xing/nei-cun-yi-zhi-xing-mo-xing-pso.md)
+* [内存一致性模型-RMO](gao-du-huan-cun-yu-yi-zhi-xing/nei-cun-yi-zhi-xing-mo-xing-rmo.md)
+* [编译乱序](gao-du-huan-cun-yu-yi-zhi-xing/bian-yi-luan-xu.md)
+* [如何使用屏障指令](gao-du-huan-cun-yu-yi-zhi-xing/ru-he-shi-yong-ping-zhang-zhi-ling.md)
 
 ## IO多路复用
 
