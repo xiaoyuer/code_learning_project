@@ -13,6 +13,7 @@
 
 ## Effective Go
 
+* [Golang wiki](effective-go/golang-wiki.md)
 * [gc垃圾回收](effective-go/gc-la-ji-hui-shou.md)
 * [go module原理](effective-go/go-module-yuan-li.md)
 * [context Go语言库标准](effective-go/context-go-yu-yan-ku-biao-zhun.md)
@@ -81,6 +82,13 @@
 * [Functional Programming](go-basic/functional-programming.md)
 * [Scripting](go-basic/scripting.md)
 * [Strings](go-basic/strings.md)
+* [Maps](go-basic/maps.md)
+* [Slice and Arrays](go-basic/slice-and-arrays.md)
+* [Files](go-basic/files.md)
+* [Time and Date](go-basic/time-and-date.md)
+* [Random Numbers](go-basic/random-numbers.md)
+* [Language Basics](go-basic/language-basics.md)
+* [Standard Library](go-basic/standard-library.md)
 
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
 
@@ -88,7 +96,7 @@
 
 ## 编译原理
 
-* [Untitled](bian-yi-yuan-li/untitled.md)
+* [Books](bian-yi-yuan-li/untitled.md)
 
 ## Linux <a id="go-code-for-common-tasks"></a>
 
