@@ -5,3 +5,7 @@
 * interpreter
 * compiler
 
+{% embed url="http://hjemmesider.diku.dk/~torbenm/Basics/basics\_lulu2.pdf" %}
+
+
+

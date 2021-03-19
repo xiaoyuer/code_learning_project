@@ -18,6 +18,7 @@
 * [go module原理](effective-go/go-module-yuan-li.md)
 * [context Go语言库标准](effective-go/context-go-yu-yan-ku-biao-zhun.md)
 * [Go泛型](effective-go/go-fan-xing.md)
+* [Channel](effective-go/channel.md)
 
 ## 并行
 
@@ -93,6 +94,7 @@
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
 
 * [工厂模式（factory Method）的本质是什么？为什么引入工厂模式？](mo-shi-shi-bie/untitled.md)
+* [Bloggers](mo-shi-shi-bie/bloggers.md)
 
 ## 编译原理
 
@@ -112,10 +114,15 @@
 ## Guides
 
 * [技术团队有哪些一开始就一定要严格执行的开发规范？](guides/ji-shu-tuan-dui-you-na-xie-yi-kai-shi-jiu-yi-ding-yao-yan-ge-zhi-hang-de-kai-fa-gui-fan.md)
+* [Go Code Test BenchMark](guides/go-code-test-benchmark.md)
 
 ## Shell
 
 * [Grep and Sed](shell/grep-and-sed.md)
 * [AWK](shell/awk.md)
 * [Shell Variable and Command Line](shell/shell-variable-and-command-line.md)
+
+## The Way to Go <a id="the-way-to-go-1"></a>
+
+* [Untitled](the-way-to-go-1/untitled.md)
 

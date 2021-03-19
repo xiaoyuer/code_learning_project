@@ -80,5 +80,94 @@ for key, value := range m { // Order not specified
 * Add, get and delete operations run in **constant** expected time. The time complexity for the add operation is [amortized](https://yourbasic.org/algorithms/amortized-time-complexity-analysis/).
 * The comparison operators `==` and `!=` must be defined for the key type.
 
+## 3 ways to find a key in a map
+
+
+
+### Basics <a id="basics"></a>
+
+When you index a [map](https://yourbasic.org/golang/maps-explained/) in Go you get two return values; the second one \(which is optional\) is a boolean that indicates if the key exists.
+
+If the key doesn’t exist, the first value will be the default [zero value](https://yourbasic.org/golang/default-zero-value/).
+
+### Check second return value <a id="check-second-return-value"></a>
+
+```text
+m := map[string]float64{"pi": 3.14}
+v, found := m["pi"] // v == 3.14  found == true
+v, found = m["pie"] // v == 0.0   found == false
+_, found = m["pi"]  // found == true
+```
+
+### Use second return value directly in an if statement <a id="use-second-return-value-directly-in-an-if-statement"></a>
+
+```text
+m := map[string]float64{"pi": 3.14}
+if v, found := m["pi"]; found {
+    fmt.Println(v)
+}
+// Output: 3.14
+```
+
+### Check for zero value <a id="check-for-zero-value"></a>
+
+```text
+m := map[string]float64{"pi": 3.14}
+
+v := m["pi"] // v == 3.14
+v = m["pie"] // v == 0.0 (zero value)
+```
+
+> **Warning:** This approach doesn't work if the zero value is a possible key.
+
+
+
+## Get slices of keys and values from a map
+
+You can use a range statement to extract slices of keys and values from a [map](https://yourbasic.org/golang/maps-explained/).
+
+```text
+keys := make([]keyType, 0, len(myMap))
+values := make([]valueType, 0, len(myMap))
+
+for k, v := range myMap {
+	keys = append(keys, k)
+	values = append(values, v)
+}
+```
+
+## Sort a map by key or value
+
+
+
+* A [map](https://yourbasic.org/golang/maps-explained/) is an **unordered** collection of key-value pairs.
+* If you need a stable iteration order, you must maintain a separate data structure.
+
+This example uses a sorted slice of keys to print a `map[string]int` in key order.
+
+```text
+m := map[string]int{"Alice": 23, "Eve": 2, "Bob": 25}
+
+keys := make([]string, 0, len(m))
+for k := range m {
+	keys = append(keys, k)
+}
+sort.Strings(keys)
+
+for _, k := range keys {
+	fmt.Println(k, m[k])
+}
+```
+
+Output:
+
+```text
+Alice 23
+Bob 25
+Eve 2
+```
+
+> Also, starting with [Go 1.12](https://tip.golang.org/doc/go1.12), the [`fmt`](https://golang.org/pkg/fmt/) package prints maps in key-sorted order to ease testing.
+
 
 
