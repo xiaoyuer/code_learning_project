@@ -269,5 +269,93 @@ func Contains(a []string, x string) bool {
 
 ### Binary search <a id="binary-search"></a>
 
+Binary search is faster than linear search, but only works if your data is in order. It's a sortcut. – Dan Bentley
+
+If the array is sorted, you can use a binary search instead. This will be much more efficient, since binary search runs in worst-case logarithmic time, making _**O**_**\(log** _**n**_**\)** comparisons, where _n_ is the size of the slice.
+
+There are the three custom binary search functions: [`sort.SearchInts`](https://golang.org/pkg/sort/#SearchInts), [`sort.SearchStrings`](https://golang.org/pkg/sort/#SearchStrings) or [`sort.SearchFloat64s`](https://golang.org/pkg/sort/#SearchFloat64s).
+
+They all have the signature
+
+```text
+func SearchType(a []Type, x Type) int
+```
+
+and return
+
+* the smallest index `i` at which `x <= a[i]`
+* or `len(a)` if there is no such index.
+
+The slice must be sorted in **ascending order**.
+
+```text
+a := []string{"A", "C", "C"}
+
+fmt.Println(sort.SearchStrings(a, "A")) // 0
+fmt.Println(sort.SearchStrings(a, "B")) // 1
+fmt.Println(sort.SearchStrings(a, "C")) // 1
+fmt.Println(sort.SearchStrings(a, "D")) // 3
+```
+
+#### Generic binary search <a id="generic-binary-search"></a>
+
+There is also a **generic binary search** function [`sort.Search`](https://golang.org/pkg/sort/#Search).
+
+```text
+func Search(n int, f func(int) bool) int
+```
+
+It returns
+
+* the smallest index `i` at which `f(i)` is true,
+* or `n` if there is no such index.
+
+It requires that `f` is false for some \(possibly empty\) prefix of the input range and then true for the remainder.
+
+This example mirrors the one above, but uses the generic [`sort.Search`](https://golang.org/pkg/sort/#Search) instead of [`sort.SearchInts`](https://golang.org/pkg/sort/#SearchInts).
+
+```text
+a := []string{"A", "C", "C"}
+x := "C"
+
+i := sort.Search(len(a), func(i int) bool { return x <= a[i] })
+if i < len(a) && a[i] == x {
+    fmt.Printf("Found %s at index %d in %v.\n", x, i, a)
+} else {
+    fmt.Printf("Did not find %s in %v.\n", x, a)
+}
+// Output: Found C at index 1 in [A C C].
+```
+
+### The map option <a id="the-map-option"></a>
+
+If you are doing repeated searches and updates, you may want to use a [map](https://yourbasic.org/golang/maps-explained/) instead of a slice. A map provides lookup, insert, and delete operations in _**O**_**\(1\)** expected [amortized time](https://yourbasic.org/algorithms/amortized-time-complexity-analysis/).
+
+## Last item in a slice/array
+
+Use the index `len(a)-1` to access the last element of a slice or array `a`.
+
+```text
+a := []string{"A", "B", "C"}
+s := a[len(a)-1] // C
+```
+
+> Go doesn't have negative indexing like Python does. This is a deliberate design decision — keeping the language simple can help save you from [subtle bugs](https://github.com/golang/go/issues/11245).
+
+### Remove last element <a id="remove-last-element"></a>
+
+```text
+a = a[:len(a)-1] // [A B]
+```
+
+#### Watch out for memory leaks <a id="watch-out-for-memory-leaks"></a>
+
+> **Warning:** If the slice is permanent and the element temporary, you may want to remove the reference to the element before slicing it off.
+>
+> ```text
+> a[len(a)-1] = "" // Erase element (write zero value)
+> a = a[:len(a)-1] // [A B]
+> ```
+
 
 
