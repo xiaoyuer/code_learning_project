@@ -89,6 +89,11 @@
 * [Time and Date](go-basic/time-and-date.md)
 * [Random Numbers](go-basic/random-numbers.md)
 * [Language Basics](go-basic/language-basics.md)
+* [Statements](go-basic/statements.md)
+* [Expressions](go-basic/expressions.md)
+* [Methods and Interfaces](go-basic/methods-and-interfaces.md)
+* [Error Handling](go-basic/error-handling.md)
+* [Bits and Pieces](go-basic/bits-and-pieces.md)
 * [Standard Library](go-basic/standard-library.md)
 
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
