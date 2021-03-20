@@ -1,4 +1,4 @@
-# 刻意练习
+# Practice
 
 ## 快捷键
 
@@ -48,22 +48,6 @@ cmd+e 左右跳
 * 面试前一周/两周/半周
 
 claritation 确认题目/possible solutions（时间空间复杂度分析）/coding/test
-
-
-
-
-
-
-
-
-
-* \[ \]   
-
-1.       
-2. 
-* 
-* [x] task
-  * [x] sfsa
 
 ```go
 go func()

@@ -4,7 +4,7 @@
 
 ## ALgs
 
-* [刻意练习](algs/ke-yi-lian-xi.md)
+* [Practice](algs/ke-yi-lian-xi.md)
 
 ---
 
