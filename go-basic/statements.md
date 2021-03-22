@@ -355,3 +355,290 @@ for {
 
 
 
+### Basic for-each loop \(slice or array\) <a id="basic-for-each-loop-slice-or-array"></a>
+
+```text
+a := []string{"Foo", "Bar"}
+for i, s := range a {
+    fmt.Println(i, s)
+}
+```
+
+```text
+0 Foo
+1 Bar
+```
+
+* The range expression, `a`, is **evaluated once** before beginning the loop.
+* The iteration values are assigned to the respective iteration variables, `i` and `s`, **as in an assignment statement**.
+* The second iteration variable is optional.
+* For a nil slice, the number of iterations is 0.
+
+### String iteration: runes or bytes <a id="string-iteration-runes-or-bytes"></a>
+
+For strings, the range loop iterates over [Unicode code points](https://yourbasic.org/golang/rune/).
+
+```text
+for i, ch := range "日本語" {
+    fmt.Printf("%#U starts at byte position %d\n", ch, i)
+}
+```
+
+```text
+U+65E5 '日' starts at byte position 0
+U+672C '本' starts at byte position 3
+U+8A9E '語' starts at byte position 6
+```
+
+* The index is the first byte of a UTF-8-encoded code point; the second value, of type `rune`, is the value of the code point.
+* For an invalid UTF-8 sequence, the second value will be 0xFFFD, and the iteration will advance a single byte.
+
+> To loop over individual bytes, simply use a [normal for loop](https://yourbasic.org/golang/for-loop/) and string indexing:
+>
+> ```text
+> const s = "日本語"
+> for i := 0; i < len(s); i++ {
+>     fmt.Printf("%x ", s[i])
+> }
+> ```
+>
+> ```text
+> e6 97 a5 e6 9c ac e8 aa 9e
+> ```
+
+### Map iteration: keys and values <a id="map-iteration-keys-and-values"></a>
+
+The iteration order over [maps](https://yourbasic.org/golang/maps-explained/) is not specified and is not guaranteed to be the same from one iteration to the next.
+
+```text
+m := map[string]int{
+    "one":   1,
+    "two":   2,
+    "three": 3,
+}
+for k, v := range m {
+    fmt.Println(k, v)
+}
+```
+
+```text
+two 2
+three 3
+one 1
+```
+
+* If a map entry that has not yet been reached is removed during iteration, this value will not be produced.
+* If a map entry is created during iteration, that entry may or may not be produced.
+* For a nil map, the number of iterations is 0.
+
+### Channel iteration <a id="channel-iteration"></a>
+
+For [channels](https://yourbasic.org/golang/channels-explained/), the iteration values are the successive values sent on the channel until closed.
+
+```text
+ch := make(chan int)
+go func() {
+    ch <- 1
+    ch <- 2
+    ch <- 3
+    close(ch)
+}()
+for n := range ch {
+    fmt.Println(n)
+}
+```
+
+```text
+1
+2
+3
+```
+
+* For a nil channel, the range loop blocks forever.
+
+### Gotchas <a id="gotchas"></a>
+
+Here are two traps that you want to avoid when using range loops:
+
+* [Unexpected values in range loop](https://yourbasic.org/golang/gotcha-unexpected-values-range/)
+* [Can’t change entries in range loop](https://yourbasic.org/golang/gotcha-change-value-range/)
+
+## Defer a function call \(with return value\)
+
+### Defer statement basics <a id="defer-statement-basics"></a>
+
+A `defer` statement postpones the execution of a function until the surrounding function returns, either normally or through a panic.
+
+```text
+func main() {
+    defer fmt.Println("World")
+    fmt.Println("Hello")
+}
+```
+
+```text
+Hello
+World
+```
+
+Deferred calls are executed even when the function panics:
+
+```text
+func main() {
+    defer fmt.Println("World")
+    panic("Stop")
+    fmt.Println("Hello")
+}
+```
+
+```text
+World
+panic: Stop
+
+goroutine 1 [running]:
+main.main()
+    ../main.go:3 +0xa0
+```
+
+#### Order of execution <a id="order-of-execution"></a>
+
+The deferred call’s **arguments are evaluated immediately**, even though the function call is not executed until the surrounding function returns.
+
+If there are several deferred function calls, they are executed in last-in-first-out order.
+
+```text
+func main() {
+    fmt.Println("Hello")
+    for i := 1; i <= 3; i++ {
+        defer fmt.Println(i)
+    }
+    fmt.Println("World")
+}
+```
+
+```text
+Hello
+World
+3
+2
+1
+```
+
+#### Use func to return a value <a id="use-func-to-return-a-value"></a>
+
+Deferred anonymous functions may access and modify the surrounding function’s named return parameters.
+
+In this example, the `foo` function returns “Change World”.
+
+```text
+func foo() (result string) {
+    defer func() {
+        result = "Change World" // change value at the very last moment
+    }()
+    return "Hello World"
+}
+```
+
+### Common applications <a id="common-applications"></a>
+
+Defer is often used to perform clean-up actions, such as closing a file or unlocking a mutex. Such actions should be performed both when the function returns normally and when it panics.
+
+#### Close a file <a id="close-a-file"></a>
+
+In this example, defer statements are used to ensure that all files are closed before leaving the `CopyFile` function, whichever way that happens.
+
+```text
+func CopyFile(dstName, srcName string) (written int64, err error) {
+    src, err := os.Open(srcName)
+    if err != nil {
+        return
+    }
+    defer src.Close()
+
+    dst, err := os.Create(dstName)
+    if err != nil {
+        return
+    }
+    defer dst.Close()
+
+    return io.Copy(dst, src)
+}
+```
+
+#### Error handling: catch a panic <a id="error-handling-catch-a-panic"></a>
+
+The [Recover from a panic](https://yourbasic.org/golang/recover-from-panic/#recover-and-catch-a-panic) code example shows how to use a defer statement to recover from a panic and update the return value.
+
+## Type assertions and type switches
+
+### Type assertions <a id="type-assertions"></a>
+
+A **type assertion** doesn’t really convert an [interface](https://yourbasic.org/golang/interfaces-explained/) to another data type, but it provides access to an interface’s concrete value, which is typically what you want.
+
+The type assertion `x.(T)` asserts that the concrete value stored in `x` is of type `T`, and that `x` is not nil.
+
+* If `T` is not an interface, it asserts that the dynamic type of `x` is identical to `T`.
+* If `T` is an interface, it asserts that the dynamic type of `x` implements `T`.
+
+```text
+var x interface{} = "foo"
+
+var s string = x.(string)
+fmt.Println(s)     // "foo"
+
+s, ok := x.(string)
+fmt.Println(s, ok) // "foo true"
+
+n, ok := x.(int)
+fmt.Println(n, ok) // "0 false"
+
+n = x.(int)        // ILLEGAL
+```
+
+```text
+panic: interface conversion: interface {} is string, not int
+```
+
+### Type switches <a id="type-switches"></a>
+
+A **type switch** performs several type assertions in series and runs the first case with a matching type.
+
+```text
+var x interface{} = "foo"
+
+switch v := x.(type) {
+case nil:
+    fmt.Println("x is nil")            // here v has type interface{}
+case int: 
+    fmt.Println("x is", v)             // here v has type int
+case bool, string:
+    fmt.Println("x is bool or string") // here v has type interface{}
+default:
+    fmt.Println("type unknown")        // here v has type interface{}
+}
+```
+
+```text
+x is bool or string
+```
+
+## Type alias explained
+
+An **alias declaration** has the form
+
+```text
+type T1 = T2
+```
+
+as opposed to a standard **type definition**
+
+```text
+type T1 T2
+```
+
+An alias declaration doesn’t create a new distinct type different from the type it’s created from. It just introduces an alias name `T1`, an alternate spelling, for the type denoted by `T2`.
+
+Type aliases are not meant for everyday use. They were introduced to support gradual code repair while moving a type between packages during large-scale refactoring. [Codebase Refactoring \(with help from Go\)](https://talks.golang.org/2016/refactor.article) covers this in detail.
+
+
+
