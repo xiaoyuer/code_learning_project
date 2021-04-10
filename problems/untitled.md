@@ -105,45 +105,189 @@ s1 := new(Student1) //&{0 }
    28 }
   ```
 
-1. defer执行顺序
-2. foreach的拷贝问题
-3. go执行的随机性和闭包
-4. go的继承与组合
-5. select随机性
-6. defer中插入函数的执行顺序
-7. make默认值和append
-8. map线程安全
-9. chan缓存池
-10. golang的方法集
-11. interface内部结构
-12. type类型断言
-13. 函数返回值命名
-14. defer和函数返回值
-15. new和make的问题
-16. append切片加上...
-17. 结构体比较
-18. interface内部解构
-19. 函数返回值类型
-20. iota和const系列变量复制
-21. 变量简短模式
-22. 常量在预处理阶段直接展开
-23. goto不能跳转到其他函数或者内层代码
-24. Type Alias和Type definition
-25. Type Alias ，引用方法的区别
-26. Type Alias ，结构体内部字段的区别
-27. 变量作用域
-28. 闭包延迟求值
-29. 闭包引用相同变量
-30. panic仅有最后一个可以被recover捕获
-31. 计算结构体大小
-32. 字符串转成byte数组，会发生内存拷贝吗？
-33. 拷贝大切片一定比小切片代价大吗
-34. 能说说unitptr和unsafe.Pointer的区别吗？
-35. reflect（反射包）如何获取字段tag？为什么json包不能导出私有变量的tag？
-36. 怎么避免内存逃逸？
-37. 反转含有中文，数字，英文字母的字符串
-38. 知道golang的内存逃逸吗？什么情况下会发生内存逃逸？
-39. 悬挂指针的问题
+### defer执行顺序
+
+**defer**的**执行顺序**为：后**defer**的先**执行**。 **defer**的**执行顺序**在return之后，但是在返回值返回给调用方之前，所以使用**defer**可以达到修改返回值的目的。
+
+
+
+```text
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    ret := test()
+    fmt.Println("test return:", ret)
+}
+
+func test() ( int) {
+    var i int
+
+    defer func() {
+        i++        //defer里面对i增1
+        fmt.Println("test defer, i = ", i)
+    }()
+
+    return i
+}
+```
+
+执行结果为：
+
+```text
+test defer, i =  1
+test return: 0
+```
+
+test函数的返回值为0，defer里面的i++操作好像对返回值并没有什么影响。  
+这是否表示“return i”执行结束以后才执行defer呢？  
+非也！再看下面的例子：
+
+```text
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    ret := test()
+    fmt.Println("test return:", ret)
+}
+
+//返回值改为命名返回值
+func test() (i int) {
+    //var i int
+
+    defer func() {
+        i++
+        fmt.Println("test defer, i = ", i)
+    }()
+
+    return i
+}
+```
+
+执行结果为：
+
+```text
+test defer, i =  1
+test return: 1
+```
+
+这次test函数的返回值变成了1，defer里面的“i++"修改了返回值。所以defer的执行时机应该是return之后，且返回值返回给调用方之前。
+
+1. 多个defer的执行顺序为“后进先出”；
+2. 所有函数在执行RET返回指令之前，都会先检查是否存在defer语句，若存在则先逆序调用defer语句进行收尾工作再退出返回；
+3. 匿名返回值是在return执行时被声明，有名返回值则是在函数声明的同时被声明，因此在defer语句中只能访问有名返回值，而不能直接访问匿名返回值；
+4. return其实应该包含前后两个步骤：第一步是给返回值赋值（若为有名返回值则直接赋值，若为匿名返回值则先声明再赋值）；第二步是调用RET返回指令并传入返回值，而RET则会检查defer是否存在，若存在就先逆序插播defer语句，最后RET携带返回值退出函数；
+
+‍‍_**因此，**_‍‍defer、return、返回值三者的执行顺序应该是：return最先给返回值赋值；接着defer开始执行一些收尾工作；最后RET指令携带返回值退出函数。
+
+a\(\)int 函数的返回值没有被提前声明，其值来自于其他变量的赋值，而defer中修改的也是其他变量（其实该defer根本无法直接访问到返回值），因此函数退出时返回值并没有被修改。
+
+b\(\)\(i int\) 函数的返回值被提前声明，这使得defer可以访问该返回值，因此在return赋值返回值 i 之后，defer调用返回值 i 并进行了修改，最后致使return调用RET退出函数后的返回值才会是defer修改过的值。
+
+```text
+func main() {
+	c:=c()
+	fmt.Println("c return:", *c, c) // 打印结果为 c return: 2 0xc082008340
+}
+
+func c() *int {
+	var i int
+	defer func() {
+		i++
+		fmt.Println("c defer2:", i, &i) // 打印结果为 c defer2: 2 0xc082008340
+	}()
+	defer func() {
+		i++
+		fmt.Println("c defer1:", i, &i) // 打印结果为 c defer1: 1 0xc082008340
+	}()
+	return &i
+}
+```
+
+```text
+func main() {
+	defer P(time.Now())
+	time.Sleep(5e9)
+	fmt.Println("1", time.Now())
+}
+func P(t time.Time) {
+	fmt.Println("2", t)
+	fmt.Println("3", time.Now())
+}
+
+// 输出结果：
+// 1 2017-08-01 14:59:47.547597041 +0800 CST
+// 2 2017-08-01 14:59:42.545136374 +0800 CST
+// 3 2017-08-01 14:59:47.548833586 +0800 CST
+```
+
+defer的作用域
+
+1. defer只对当前协程有效（main可以看作是主协程）；
+
+2. 当panic发生时依然会执行当前（主）协程中已声明的defer，但如果所有defer都未调用recover\(\)进行异常恢复，则会在执行完所有defer后引发整个进程崩溃；
+
+3. 主动调用os.Exit\(int\)退出进程时，已声明的defer将不再被执行。
+
+### foreach的拷贝问题
+
+for range是值拷贝出来的副本
+
+可以用指针数组，value值用"\_"舍弃了元素的复制，用下标去访问\(效率更高）
+
+```text
+for i, _ := range t {
+    t[i].Num += 100
+}
+```
+
+### go执行的随机性和闭包
+
+
+
+1. go的继承与组合
+2. select随机性
+3. defer中插入函数的执行顺序
+4. make默认值和append
+5. map线程安全
+6. chan缓存池
+7. golang的方法集
+8. interface内部结构
+9. type类型断言
+10. 函数返回值命名
+11. defer和函数返回值
+12. new和make的问题
+13. append切片加上...
+14. 结构体比较
+15. interface内部解构
+16. 函数返回值类型
+17. iota和const系列变量复制
+18. 变量简短模式
+19. 常量在预处理阶段直接展开
+20. goto不能跳转到其他函数或者内层代码
+21. Type Alias和Type definition
+22. Type Alias ，引用方法的区别
+23. Type Alias ，结构体内部字段的区别
+24. 变量作用域
+25. 闭包延迟求值
+26. 闭包引用相同变量
+27. panic仅有最后一个可以被recover捕获
+28. 计算结构体大小
+29. 字符串转成byte数组，会发生内存拷贝吗？
+30. 拷贝大切片一定比小切片代价大吗
+31. 能说说unitptr和unsafe.Pointer的区别吗？
+32. reflect（反射包）如何获取字段tag？为什么json包不能导出私有变量的tag？
+33. 怎么避免内存逃逸？
+34. 反转含有中文，数字，英文字母的字符串
+35. 知道golang的内存逃逸吗？什么情况下会发生内存逃逸？
+36. 悬挂指针的问题
 
 ## Go advance
 
