@@ -250,44 +250,165 @@ for i, _ := range t {
 
 ### go执行的随机性和闭包
 
+```text
+func main() {
+	runtime.GOMAXPROCS(1)
+	wg := sync.WaitGroup{}
+	wg.Add(20)
+	for i := 0; i < 10; i++ {
+		go func() {
+			fmt.Println("A: ", i)
+			wg.Done()
+		}()
+	}
+	for i := 0; i < 10; i++ {
+		go func(i int) {
+			fmt.Println("B: ", i)
+			wg.Done()
+		}(i)
+	}
+	wg.Wait()
+}
 
+# 输出
+B:  9
+A:  10
+A:  10
+A:  10
+A:  10
+A:  10
+A:  10
+A:  10
+A:  10
+A:  10
+A:  10
+B:  0
+B:  1
+B:  2
+B:  3
+B:  4
+B:  5
+B:  6
+B:  7
+B:  8
+```
 
-1. go的继承与组合
-2. select随机性
-3. defer中插入函数的执行顺序
-4. make默认值和append
-5. map线程安全
-6. chan缓存池
-7. golang的方法集
-8. interface内部结构
-9. type类型断言
-10. 函数返回值命名
-11. defer和函数返回值
-12. new和make的问题
-13. append切片加上...
-14. 结构体比较
-15. interface内部解构
-16. 函数返回值类型
-17. iota和const系列变量复制
-18. 变量简短模式
-19. 常量在预处理阶段直接展开
-20. goto不能跳转到其他函数或者内层代码
-21. Type Alias和Type definition
-22. Type Alias ，引用方法的区别
-23. Type Alias ，结构体内部字段的区别
-24. 变量作用域
-25. 闭包延迟求值
-26. 闭包引用相同变量
-27. panic仅有最后一个可以被recover捕获
-28. 计算结构体大小
-29. 字符串转成byte数组，会发生内存拷贝吗？
-30. 拷贝大切片一定比小切片代价大吗
-31. 能说说unitptr和unsafe.Pointer的区别吗？
-32. reflect（反射包）如何获取字段tag？为什么json包不能导出私有变量的tag？
-33. 怎么避免内存逃逸？
-34. 反转含有中文，数字，英文字母的字符串
-35. 知道golang的内存逃逸吗？什么情况下会发生内存逃逸？
-36. 悬挂指针的问题
+其中A:输出完全随机，取决于goroutine执行时i的值是多少；  
+而B:一定输出为0~9，但顺序不定。
+
+第一个go func中i是外部for的一个变量，地址不变化，但是值都在改变。
+
+第二个go func中i是函数参数，与外部for中的i完全是两个变量。  
+尾部\(i\)将发生值拷贝，go func内部指向值拷贝地址。
+
+所以在使用goroutine在处理闭包的时候，避免发生类似第一个go func中的问题。
+
+闭包能够访问外层代码中的变量； for循环与gotoutine同时执行； 所有的goroutine操作的变量都是直接操作外层代码的变量，而外层代码中的变量的值取决于循环执行的节点。
+
+### go的继承与组合
+
+这是Golang的组合模式，可以实现OOP的继承。 被组合的类型People所包含的方法虽然升级成了外部类型Teacher这个组合类型的方法（一定要是匿名字段），但它们的方法\(ShowA\(\)\)调用时接受者并没有发生变化。 此时People类型并不知道自己会被什么类型组合，当然也就无法调用方法时去使用未知的组合者Teacher类型的功能。
+
+```text
+type People struct{}
+
+func (p *People) ShowA() {
+	fmt.Println("showA-People")
+	p.ShowB()
+}
+
+func (p *People) ShowB() {
+	fmt.Println("showB-People")
+}
+
+type Teacher struct {
+	People
+}
+
+func (t *Teacher) ShowB() {
+	fmt.Println("teacher showB")
+}
+
+func main() {
+	t := Teacher{}
+	t.ShowA()
+}
+
+# 输出
+showA-People
+showB-People
+```
+
+{% embed url="https://refactoringguru.cn/design-patterns/composite/go/example" %}
+
+### select随机性
+
+select会随机选择一个可用通用做收发操作。 单个chan如果无缓冲时，将会阻塞。但结合 select可以在多个chan间等待执行。有三点原则： _select 中只要有一个case能return，则立刻执行。_ 当如果同一时间有多个case均能return则伪随机方式抽取任意一个执行。 如果没有一个case能return则可以执行”default”块。
+
+```text
+func main() {
+	runtime.GOMAXPROCS(1)
+	int_chan := make(chan int, 1)
+	string_chan := make(chan string, 1)
+	int_chan <- 1
+	string_chan <- "hello"
+	select {
+	case value := <-int_chan:
+		fmt.Println("int:", value)
+	case value := <-string_chan:
+		fmt.Println("string:", value)
+	}
+}
+
+# 输出
+都有可能
+```
+
+1. defer中插入函数的执行顺序
+2. make默认值和append
+
+```text
+func main() {
+	s := make([]int, 5)
+	s = append(s, 1, 2, 3)
+	fmt.Println(s)
+}
+
+# 输出
+[0 0 0 0 0 1 2 3]
+```
+
+1. map线程安全
+2. chan缓存池
+3. golang的方法集
+4. interface内部结构
+5. type类型断言
+6. 函数返回值命名
+7. defer和函数返回值
+8. append切片加上...
+9. 结构体比较
+10. interface内部解构
+11. 函数返回值类型
+12. iota和const系列变量复制
+13. 变量简短模式
+14. 常量在预处理阶段直接展开
+15. goto不能跳转到其他函数或者内层代码
+16. Type Alias和Type definition
+17. Type Alias ，引用方法的区别
+18. Type Alias ，结构体内部字段的区别
+19. 变量作用域
+20. 闭包延迟求值
+21. 闭包引用相同变量
+22. panic仅有最后一个可以被recover捕获
+23. 计算结构体大小
+24. 字符串转成byte数组，会发生内存拷贝吗？
+25. 拷贝大切片一定比小切片代价大吗
+26. 能说说unitptr和unsafe.Pointer的区别吗？
+27. reflect（反射包）如何获取字段tag？为什么json包不能导出私有变量的tag？
+28. 怎么避免内存逃逸？
+29. 反转含有中文，数字，英文字母的字符串
+30. 知道golang的内存逃逸吗？什么情况下会发生内存逃逸？
+31. 悬挂指针的问题
 
 ## Go advance
 
