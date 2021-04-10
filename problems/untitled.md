@@ -109,8 +109,6 @@ s1 := new(Student1) //&{0 }
 
 **defer**的**执行顺序**为：后**defer**的先**执行**。 **defer**的**执行顺序**在return之后，但是在返回值返回给调用方之前，所以使用**defer**可以达到修改返回值的目的。
 
-
-
 ```text
 package main
 
@@ -364,8 +362,63 @@ func main() {
 都有可能
 ```
 
-1. defer中插入函数的执行顺序
-2. make默认值和append
+### defer中插入函数的执行顺序
+
+defer 压入栈的是值，如果为函数，则可以修改变量值
+
+```text
+func c() (i int) {
+    defer func() { i++ }()
+    return 1
+}//函数返回值为 2。
+```
+
+通过`defer`修改返回值，`defer`也可以用于控制恢复`panic`断言。
+
+```text
+func main() {
+    f()
+    fmt.Println("Returned normally from f.")
+}
+
+func f() {
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("Recovered in f", r)
+        }
+    }()
+    fmt.Println("Calling g.")
+    g(0)
+    fmt.Println("Returned normally from g.")
+}
+
+func g(i int) {
+    if i > 3 {
+        fmt.Println("Panicking!")
+        panic(fmt.Sprintf("%v", i))
+    }
+    defer fmt.Println("Defer in g", i)
+    fmt.Println("Printing in g", i)
+    g(i + 1)
+}
+```
+
+```text
+Calling g.
+Printing in g 0
+Printing in g 1
+Printing in g 2
+Printing in g 3
+Panicking!
+Defer in g 3
+Defer in g 2
+Defer in g 1
+Defer in g 0
+Recovered in f 4
+Returned normally from f.
+```
+
+1. make默认值和append
 
 ```text
 func main() {
@@ -387,28 +440,60 @@ func main() {
 7. defer和函数返回值
 8. append切片加上...
 9. 结构体比较
-10. interface内部解构
-11. 函数返回值类型
-12. iota和const系列变量复制
-13. 变量简短模式
-14. 常量在预处理阶段直接展开
-15. goto不能跳转到其他函数或者内层代码
-16. Type Alias和Type definition
-17. Type Alias ，引用方法的区别
-18. Type Alias ，结构体内部字段的区别
-19. 变量作用域
-20. 闭包延迟求值
-21. 闭包引用相同变量
-22. panic仅有最后一个可以被recover捕获
-23. 计算结构体大小
-24. 字符串转成byte数组，会发生内存拷贝吗？
-25. 拷贝大切片一定比小切片代价大吗
-26. 能说说unitptr和unsafe.Pointer的区别吗？
-27. reflect（反射包）如何获取字段tag？为什么json包不能导出私有变量的tag？
-28. 怎么避免内存逃逸？
-29. 反转含有中文，数字，英文字母的字符串
-30. 知道golang的内存逃逸吗？什么情况下会发生内存逃逸？
-31. 悬挂指针的问题
+
+### interface内部解构
+
+空接口是 `var i interface{}`,这个不是
+
+```text
+type People interface {
+    Show()
+}
+
+type Student struct{}
+
+func (stu *Student) Show() {
+
+}
+
+func live() People {
+    var stu *Student
+    return stu
+}
+
+func main() {
+    if live() == nil {
+        fmt.Println("AAAAAAA")
+    } else {
+        fmt.Println("BBBBBBB")
+    }
+}
+
+# 输出
+BBBBBBB
+```
+
+1. 函数返回值类型
+2. iota和const系列变量复制
+3. 变量简短模式
+4. 常量在预处理阶段直接展开
+5. goto不能跳转到其他函数或者内层代码
+6. Type Alias和Type definition
+7. Type Alias ，引用方法的区别
+8. Type Alias ，结构体内部字段的区别
+9. 变量作用域
+10. 闭包延迟求值
+11. 闭包引用相同变量
+12. panic仅有最后一个可以被recover捕获
+13. 计算结构体大小
+14. 字符串转成byte数组，会发生内存拷贝吗？
+15. 拷贝大切片一定比小切片代价大吗
+16. 能说说unitptr和unsafe.Pointer的区别吗？
+17. reflect（反射包）如何获取字段tag？为什么json包不能导出私有变量的tag？
+18. 怎么避免内存逃逸？
+19. 反转含有中文，数字，英文字母的字符串
+20. 知道golang的内存逃逸吗？什么情况下会发生内存逃逸？
+21. 悬挂指针的问题
 
 ## Go advance
 
