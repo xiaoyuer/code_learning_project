@@ -490,10 +490,344 @@ BBBBBBB
 15. 拷贝大切片一定比小切片代价大吗
 16. 能说说unitptr和unsafe.Pointer的区别吗？
 17. reflect（反射包）如何获取字段tag？为什么json包不能导出私有变量的tag？
-18. 怎么避免内存逃逸？
-19. 反转含有中文，数字，英文字母的字符串
-20. 知道golang的内存逃逸吗？什么情况下会发生内存逃逸？
-21. 悬挂指针的问题
+18. 反转含有中文，数字，英文字母的字符串
+
+### 知道golang的内存逃逸吗？什么情况下会发生内存逃逸？怎么避免内存逃逸？
+
+### 悬挂指针的问题
+
+### 不定参数的使用 <a id="&#x4E0D;&#x5B9A;&#x53C2;&#x6570;&#x7684;&#x4F7F;&#x7528;"></a>
+
+Go文档的`cmd`，`exec.Command(name string, args ...string)`
+
+在我们想要获取`linux`服务器的输出状态，获取`cpu`使用率，内存剩余时候。就需要这个，那么对于通用接口实现，也就是说实现前面输出，后面解析，只用一个函数就能解决一系列问题。
+
+```text
+func t() {
+	var (
+		cmd *exec.Cmd
+		output []byte
+		err error
+	)
+
+	a := []string{"docker", "ps", "-a"}
+	a2 := a[1:]
+	// 生成Cmd
+	cmd = exec.Command(a[0], a2...)
+
+	// 执行了命令, 捕获了子进程的输出( pipe )
+	if output, err = cmd.CombinedOutput(); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	// 打印子进程的输出
+	fmt.Println(string(output))
+}
+
+func main() {
+	t()
+}
+```
+
+```text
+// 执行后台任务 输出到前台
+// 前台的文件是以 "," 为分隔符
+func CmdHandle(c *gin.Context) {
+	var (
+		sliceCmd []string
+		sliceCmdHead string
+		sliceOther []string
+		output []byte
+		err error
+		cmd *exec.Cmd
+		q string
+	)
+	q = c.Query("cmd")
+	sliceCmd = strings.Split(q, ",")
+
+	sliceCmdHead = sliceCmd[0]
+	sliceOther = sliceCmd[1:]
+
+	cmd = exec.Command(sliceCmdHead, sliceOther...)
+
+	// 执行了命令, 捕获了子进程的输出( pipe )
+	if output, err = cmd.CombinedOutput(); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	str := string(output)
+
+	strSlice := strings.Split(str, "\n")
+
+	c.JSON(200, gin.H{
+		"msg": "cmd_ok",
+		"cmd": strSlice,
+	})
+}
+```
+
+```text
+//标准输出
+func CpuStatusHandle(ctx *gin.Context) {
+	var (
+		cmd           *exec.Cmd
+		out           bytes.Buffer
+		err           error
+		process       []*Process
+		line          string
+		itemsNoFormat []string // 没格式化的
+		items         []string
+		pid           string
+		cpu           float64
+		cpuTotal      float64
+		processTmp    Process
+	)
+
+	cmd = exec.Command("ps", "u")
+	cmd.Stdout = &out
+	if err = cmd.Run(); err != nil {
+		fmt.Println("cmd_err------------------")
+		return
+	}
+
+	process = make([]*Process, 0)
+	for {
+		if line, err = out.ReadString('\n'); err != nil {
+			break
+		}
+
+		// 格式化命令
+		itemsNoFormat = strings.Split(line, " ")
+		items = make([]string, 0)
+		for _, v := range itemsNoFormat {
+			if v != "\t" && v != "" {
+				items = append(items, v)
+			}
+		}
+
+		// 提取pid 和 cpu
+		pid = items[1]
+		if cpu, err = strconv.ParseFloat(items[2], 64); err != nil {
+			fmt.Println("系统异常  解析失败哦哦")
+			//break
+		}
+
+		cpuTotal += cpu
+
+		processTmp = Process{pid: pid}
+		process = append(process, &processTmp)
+	}
+
+	ctx.JSON(200, gin.H{
+		"cputotal": cpuTotal,
+		"cpulist":  process,
+	})
+}
+```
+
+### CutIf消除if\_else（不推荐）
+
+### FuncClosure闭包函数
+
+**闭包就是能够读取其他函数内部变量的函数。例如在javascript中，只有函数内部的子函数才能读取局部变量，所以闭包可以理解成“定义在一个函数内部的函数“。在本质上，闭包是将函数内部和函数外部连接起来的桥梁**
+
+```text
+func ClosureBase() func(x1 int, x2 int) int {
+	i := 0
+	return func(x1 int, x2 int) int {
+		i++
+		fmt.Println("此时闭包里面的i的值:", i)
+		sum := i + x1 + x2
+		return sum
+	}
+}
+```
+
+```text
+func TestClosureBase(t *testing.T) {
+	fmt.Println("---------f1函数测试-----------------")
+	f1 := ClosureBase()
+	fmt.Println(f1(1, 1))
+	fmt.Println(f1(1, 1))
+	fmt.Println(f1(1, 1))
+
+	fmt.Println("------------------f2函数测试---------------")
+	f2 := ClosureBase()
+	fmt.Println(f2(1, 1))
+	fmt.Println(f2(1, 1))
+	fmt.Println(f2(1, 1))
+}
+我是tmp
+此时闭包里面的i的值: 1
+3
+此时闭包里面的i的值: 2
+4
+此时闭包里面的i的值: 3
+5
+------------------f2函数测试---------------
+我是tmp
+此时闭包里面的i的值: 1
+3
+此时闭包里面的i的值: 2
+4
+此时闭包里面的i的值: 3
+5
+```
+
+### 闭包应用 <a id="&#x95ED;&#x5305;&#x5E94;&#x7528;"></a>
+
+对于斐波那切数列
+
+```text
+func Fbi() func() int {
+	fmt.Println("函数经过跑下面这俩了吗")
+	b0 := 0
+	b1 := 1
+	return func() int {
+		tmp := b0 + b1
+		b0  = b1
+		b1 = tmp
+		return b1
+	}
+}
+
+func TestFbi(t *testing.T) {
+	fmt.Println("斐波那切数列，非递归")
+	f := Fbi()
+	for i := 1; i <= 4; i++ {
+		fmt.Println(f())
+	}
+)
+```
+
+### FuncHigh高阶函数
+
+这个函数的形参列表或返回参数列表中存在数据类型为函数类型，这就是高阶函数。
+
+闭包就是高阶函数，他只是其中的一种，因为闭包是函数返回，还有一种就是形参是函数的。
+
+```text
+func HighFunc(val int, f func(i1 int) int) (func() int) {
+	biVar := 0
+	fmt.Println("此时闭包的值为", biVar)
+	return func() int {
+		if f(biVar) <= 3 {
+			fmt.Println("可以加一")
+			biVar++
+		}
+		return val + biVar
+	}
+}
+
+func TestHighFunc(t *testing.T) {
+	highFunc := HighFunc(0, func(i1 int) int {
+		return i1
+	})
+
+	for i := 0; i <= 9; i++ {
+		fmt.Println(highFunc())
+	}
+}
+此时闭包的值为 0
+可以加一
+1
+可以加一
+2
+可以加一
+3
+可以加一
+4
+4
+4
+4
+4
+4
+4
+```
+
+过滤输出
+
+```text
+type student struct{
+    name string
+    grade int8
+}
+
+func filter(stu []student, f func(s student) bool) []student{
+    var r []student
+
+    for _, s := range stu {
+        if f(s) == true {
+            r = append(r, s)
+        }
+    }
+
+    return r
+}
+
+func main() {
+    s1 := student{
+        "zhangsan",
+        90,
+    }
+
+    s2 := student{
+        "lisi",
+        80,
+    }
+
+    s3 := student{
+        "wanggang",
+        70,
+    }
+
+    s := []student{s1, s2, s3}
+
+    fmt.Println("all student: ", s)
+
+    var result []student
+
+    result = filter(s, func(s student) bool {
+        if s.grade < 90 {
+            return true
+        }
+        return false
+    })
+
+    fmt.Println("less than 90: ", result)
+}
+```
+
+
+
+###  Go Mod（ver 1.11）
+
+* 如何只更新直接依赖；go get -u github.com/gin-gonic/gin
+* 如何只更新间接依赖；
+* 如何更新所有依赖；
+* 本地依赖：replace 把引用的包放入自己的项目 放到github上面再拉下来
+* **查看项目中依赖和情况：**go test ./...
+* 未找到包：
+
+  ```text
+  export GO111MODULE=on
+  export GOPROXY=https://goproxy.io
+  ```
+
+  **go build 提示找不到路径的报错**
+
+* 在goland中的referrence中的Go的Go Modules（vgo）要勾选Enable等选项然后apply
+* 进入main函数所在的目录，然后go build
+
+### go.sum（module名、版本和哈希组成）
+
+本意在于提供防篡改的保障，如果拉第三方库的时候发现其实际内容和记录的校验值不同，就让构建过程报错退出。然而它能做的也就只限于此。
+
+`go.mod`只需要记录直接依赖的`依赖包版本`，只在`依赖包版本`不包含`go.mod`文件时候才会记录间接`依赖包版本`，而`go.sum`则是要记录构建用到的所有`依赖包版本`。
+
+`go.sum`存在的意义在于，我们希望别人或者在别的环境中构建当前项目时所使用依赖包跟`go.sum`中记录的是完全一致的，从而达到一致构建的目的。
 
 ## Go advance
 
@@ -505,7 +839,7 @@ BBBBBBB
 4. go heap对象分布
 5. 混合读写之后为什么能减少一次栈重扫
 
-### channel的本质
+### channel的本质（如何解决并发冲突，常见并发模式）
 
 1. 结构体源码
 2. 创建channel
@@ -541,9 +875,9 @@ OS和网络 容器 k8s
 
 Kubernetes in Action 再看写的很烂的 cloneset advance stateful set源码（openkruise项目里）
 
+### 难点讲座
+
 Kavya Joshi这位印度姐姐的4部讲座真是厉害，直接讲清了Go里面的4大难点： Mutext机制 [https://www.bilibili.com/video/BV1kz411e7dL/](https://www.bilibili.com/video/BV1kz411e7dL/) Go Race检测机制 [https://www.bilibili.com/video/BV1Ta4y1a7Wd/](https://www.bilibili.com/video/BV1Ta4y1a7Wd/) Channel原理 [https://www.bilibili.com/video/BV1eT4y177HN](https://www.bilibili.com/video/BV1eT4y177HN) goroutine 调度机制GMP模型 [https://www.bilibili.com/video/BV1vT4y177tA](https://www.bilibili.com/video/BV1vT4y177tA)
-
-
 
 
 
