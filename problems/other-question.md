@@ -4,6 +4,8 @@
 
 ## Mysql
 
+[https://zronghui.github.io/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4-MYSQL45%E8%AE%B2-%E7%AC%94%E8%AE%B0.html](https://zronghui.github.io/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4-MYSQL45%E8%AE%B2-%E7%AC%94%E8%AE%B0.html)
+
 索引怎么优化
 
 一亿条数据查询优化
