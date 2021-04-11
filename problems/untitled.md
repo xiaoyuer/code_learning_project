@@ -800,6 +800,8 @@ func main() {
 }
 ```
 
+### Go init func
+
 
 
 ###  Go Mod（ver 1.11）
