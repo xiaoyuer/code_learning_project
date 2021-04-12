@@ -142,6 +142,7 @@
 * [What is Rule Engine](problems/why-rule-engine.md)
 * [Go Problems](problems/untitled.md)
 * [Other Question](problems/other-question.md)
+* [test](problems/test.md)
 * [Future Study](problems/future-study.md)
 * [Goland quick](problems/goland-quick.md)
 
