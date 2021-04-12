@@ -234,6 +234,47 @@ defer的作用域
 
 3. 主动调用os.Exit\(int\)退出进程时，已声明的defer将不再被执行。
 
+### Rocover
+
+在我们写程序时候，想让程序错误继续运行，一般我们会容错error。但是对于数组越界，我们还想让go函数跑的话，不影响主题函数
+
+```text
+package _func
+
+import (
+	"fmt"
+	"time"
+)
+
+func Client()  {
+	for {
+		go myPainc()
+		go normal()
+		time.Sleep(time.Second)
+	}
+}
+
+func myPainc() {
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println("出了错：", err)
+			return
+		}
+	}()
+
+	arr := make([]string, 0)
+	arr = append(arr, "1")
+	fmt.Println(arr[8]) // 看，这是重大错误
+}
+
+func normal()  {
+	fmt.Println("正常运算")
+}
+
+## 输出
+正常运算
+```
+
 ### foreach的拷贝问题
 
 for range是值拷贝出来的副本
@@ -362,6 +403,53 @@ func main() {
 都有可能
 ```
 
+Go里面提供了一个关键字select，通过select可以监听channel上的数据流动。  
+select的用法与switch语言非常类似，由select开始一个新的选择块，每个选择条件由case语句来描述。  
+与switch语句相比， select有比较多的限制，其中最大的一条限制就是每个case语句里必须是一个IO操作，大致的结构如下
+
+```text
+func WorkHere(quit chan interface{}) {
+	for {
+		select {
+		case <-quit:
+			fmt.Println("over")
+			return
+		default:
+			time.Sleep(time.Millisecond * 100)
+			fmt.Println("work")
+		}
+	}
+}
+
+func main() {
+	var (
+		quit chan interface{}
+	)
+	quit = make(chan interface{})
+	go WorkHere(quit)
+	time.Sleep(2 * time.Second)
+	quit<- "quit"
+}
+```
+
+```text
+select {
+    case <-chan1:
+        // 如果chan1成功读到数据，则进行该case处理语句
+    case chan2 <- 1:
+        // 如果成功向chan2写入数据，则进行该case处理语句
+    default:
+        // 如果上面都没有成功，则进入default处理流程
+}
+```
+
+注意事项： 1. 监听的case中，没有满足监听条件，阻塞。
+
+1. 监听的case中，有多个满足监听条件，任选一个执行。
+2. 可以使用default来处理所有case都不满足监听条件的状况。 通常不用（会产生忙轮询）
+3. select 自身不带有循环机制，需借助外层 for 来循环监听
+4. break 跳出 select中的一个case选项 。类似于switch中的用法。
+
 ### defer中插入函数的执行顺序
 
 defer 压入栈的是值，如果为函数，则可以修改变量值
@@ -418,7 +506,7 @@ Recovered in f 4
 Returned normally from f.
 ```
 
-1. make默认值和append
+### make默认值和append
 
 ```text
 func main() {
@@ -431,15 +519,84 @@ func main() {
 [0 0 0 0 0 1 2 3]
 ```
 
-1. map线程安全
-2. chan缓存池
-3. golang的方法集
-4. interface内部结构
-5. type类型断言
-6. 函数返回值命名
-7. defer和函数返回值
-8. append切片加上...
-9. 结构体比较
+### map线程安全
+
+map：只读是安全的，不是线程安全的。在同一时间段内，让不同 goroutine 中的代码，对同一个字典进行读写操作是不安全 的。
+
+```text
+// 创建一个int到int的映射
+m := make(map[int]int)
+// 开启一段并发代码
+go func() {
+    // 不停地对map进行写入
+    for {
+        m[1] = 1
+    }
+}()
+// 开启一段并发代码
+go func() {
+    // 不停地对map进行读取
+    for {
+        _ = m[1]
+    }
+}()
+// 无限循环, 让并发程序在后台执行
+for {
+}
+```
+
+需要并发读写时，一般的做法是加锁，但这样性能并不高，Go语言在 1.9 版本中提供了一种效率较高的并发安全的 sync.Map，sync.Map 和 map 不同，不是以语言原生形态提供，而是在 sync 包下的特殊结构。  
+  
+sync.Map 有以下特性：
+
+* 无须初始化，直接声明即可。
+* sync.Map 不能使用 map 的方式进行取值和设置等操作，而是使用 sync.Map 的方法进行调用，Store 表示存储，Load 表示获取，Delete 表示删除。
+* 使用 Range 配合一个回调函数进行遍历操作，通过回调函数返回内部遍历出来的值，Range 参数中回调函数的返回值在需要继续迭代遍历时，返回 true，终止迭代遍历时，返回 false。
+
+```text
+package main
+import (
+      "fmt"
+      "sync"
+)
+func main() {
+    var scene sync.Map
+    // 将键值对保存到sync.Map
+    scene.Store("greece", 97)
+    scene.Store("london", 100)
+    scene.Store("egypt", 200)
+    // 从sync.Map中根据键取值
+    fmt.Println(scene.Load("london"))
+    // 根据键删除对应的键值对
+    scene.Delete("london")
+    // 遍历所有sync.Map中的键值对
+    scene.Range(func(k, v interface{}) bool {
+        fmt.Println("iterate:", k, v)
+        return true
+    })
+}
+```
+
+### chan缓存池
+
+[https://blog.csdn.net/zaimeiyeshicengjing/article/details/106124095](https://blog.csdn.net/zaimeiyeshicengjing/article/details/106124095)
+
+### golang的方法集
+
+T类型的值的方法集只包含值接收者声明的方法。而指向T类型的指针的方法集既包含值接收者声明的方法，也包含指针接收者声明的方法。
+
+### interface内部结构
+
+
+
+### type类型断言
+
+### 函数返回值命名
+
+可以给一个函数的返回值指定名字。如果指定了一个返回值的名字，则可以视为在该函数的第一行中定义了该名字的变量。
+
+1. append切片加上...
+2. 结构体比较
 
 ### interface内部解构
 
@@ -800,7 +957,9 @@ func main() {
 }
 ```
 
-### Go init func
+### Go init func Order
+
+
 
 
 
