@@ -185,7 +185,7 @@ I/O多路复用这个概念被提出来以后， select是第一个实现 \(1983
 
 ## rabbitmq
 
-### 作用：削峰，异步
+### 作用：削峰，异步，解耦
 
 ## 实际问题
 
@@ -274,11 +274,97 @@ golang中的map，的 key 可以是很多种类型，比如 bool, 数字，strin
 
 ###  mongodb groupby 
 
-### mysql锁 MVCC 隔离机制的原理 mq队列如何保证都push了
+### MVCC 隔离机制的原理
 
-### mysql主从同步
+###  mq队列如何保证都push了
+
+①：可以选择使用rabbitmq提供是事物功能，就是生产者在发送数据之前开启事物，然后发送消息，如果消息没有成功被rabbitmq接收到，那么生产者会受到异常报错，这时就可以回滚事物，然后尝试重新发送；如果收到了消息，那么就可以提交事物。
+
+```text
+  channel.txSelect();//开启事物
+  try{
+      //发送消息
+  }catch(Exection e){
+      channel.txRollback()；//回滚事物
+      //重新提交
+  }
+复制代码
+```
+
+**缺点：** rabbitmq事物已开启，就会变为同步阻塞操作，生产者会阻塞等待是否发送成功，太耗性能会造成吞吐量的下降。
+
+②：可以开启confirm模式。在生产者哪里设置开启了confirm模式之后，每次写的消息都会分配一个唯一的id，然后如何写入了rabbitmq之中，rabbitmq会给你回传一个ack消息，告诉你这个消息发送OK了；  
+作者：一条路上的咸鱼  
+链接：https://juejin.cn/post/6844903849099018253  
+来源：掘金  
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+### mysql 主从同步
+
+### 并发写入
 
 将评论直接推送到 rabbitMq之类的消息中间件，然后再开多进程进行消费插入mysql\(开几个根据服务器性能\)，这样负载就是可控的了
+
+监控主从延迟的方法有多种：
+
+1. Slave 使用本机当前时间，跟 Master 上 binlog 的时间戳比较
+2. `pt-heartbeat`、`mt-heartbeat`
+
+**本质**：同一条 SQL，`Master` 上`执行结束`的时间 vs. `Slave` 上`执行结束`的时间。
+
+原因
+
+* Master 上，`大事务`，耗时长：优化业务，拆分为小事务
+  * Master 上，SQL 执行速度慢：优化索引，提升索引区分度（事务内部有查询操作）
+  * Master 上，批量 DML 操作：建议延迟至业务低峰期操作
+* Master 上，`多线程写入频繁`， Slave 单线程速度跟不上：提升 Slave 硬件性能、借助中间件，改善主从复制的单线程模式
+
+### mysql锁  **InnoDB加锁方法：**
+
+* 意向锁是 InnoDB 自动加的， 不需用户干预。
+* 对于 UPDATE、 DELETE 和 INSERT 语句， InnoDB 会自动给涉及数据集加排他锁（X\)；
+* 对于普通 SELECT 语句，InnoDB 不会加任何锁； 事务可以通过以下语句显式给记录集加共享锁或排他锁：
+  * 共享锁（S）：SELECT \* FROM table\_name WHERE ... LOCK IN SHARE MODE。 其他 session 仍然可以查询记录，并也可以对该记录加 share mode 的共享锁。但是如果当前事务需要对该记录进行更新操作，则很有可能造成死锁。
+  * 排他锁（X\)：SELECT \* FROM table\_name WHERE ... FOR UPDATE。其他 session 可以查询该记录，但是不能对该记录加共享锁或排他锁，而是等待获得锁
+* **隐式锁定：**
+
+InnoDB在事务执行过程中，使用两阶段锁协议：
+
+随时都可以执行锁定，InnoDB会根据隔离级别在需要的时候自动加锁；
+
+锁只有在执行commit或者rollback的时候才会释放，并且所有的锁都是在**同一时刻**被释放。
+
+### rabbitmq过程
+
+{% embed url="https://1.声明MessageQueue" %}
+
+a\)消费者是无法订阅或者获取不存在的MessageQueue中信息。
+
+b\)消息被Exchange接受以后，如果没有匹配的Queue，则会被丢弃。  
+a\) Exclusive：排他队列，如果一个队列被声明为排他队列，该队列仅对首次声明它的连接可见，并在连接断开时自动删除。这里需要注意三点：其一，排他队列是基于连接可见的，同一连接的不同信道是可以同时访问同一个连接创建的排他队列的。其二，“首次”，如果一个连接已经声明了一个排他队列，其他连接是不允许建立同名的排他队列的，这个与普通队列不同。其三，即使该队列是持久化的，一旦连接关闭或者客户端退出，该排他队列都会被自动删除的。这种队列适用于只限于一个客户端发送读取消息的应用场景。
+
+b\) Auto-delete:自动删除，如果该队列没有任何订阅的消费者的话，该队列会被自动删除。这种队列适用于临时队列。
+
+c\) Durable:持久化，这个会在后面作为专门一个章节讨论。
+
+d\) 其他选项，例如如果用户仅仅想查询某一个队列是否已存在，如果不存在，不想建立该队列，仍然可以调用queue.declare，只不过需要将参数passive设为true，传给queue.declare，如果该队列已存在，则会返回true；如果不存在，则会返回Error，但是不会创建新的队列。
+
+{% embed url="https://2.生产者发送消息" %}
+
+a\) 如果是Direct类型，则会将消息中的RoutingKey与该Exchange关联的所有Binding中的BindingKey进行比较，如果相等，则发送到该Binding对应的Queue中。
+
+如果是 Fanout 类型，则会将消息发送给所有与该 Exchange 定义过 Binding 的所有 Queues 中去，其实是一种广播行为。
+
+\)如果是Topic类型，则会按照正则表达式，对RoutingKey与BindingKey进行匹配，如果匹配成功，则发送到对应的Queue中。
+
+3 . 消费者订阅消息  
+在RabbitMQ中消费者有2种方式获取队列中的消息:
+
+a\) 一种是通过basic.consume命令，订阅某一个队列中的消息,channel会自动在处理完上一条消息之后，接收下一条消息。（同一个channel消息处理是串行的）。除非关闭channel或者取消订阅，否则客户端将会一直接收队列的消息。
+
+b\) 另外一种方式是通过basic.get命令主动获取队列中的消息，但是绝对不可以通过循环调用basic.get来代替basic.consume，这是因为basic.get RabbitMQ在实际执行的时候，是首先consume某一个队列，然后检索第一条消息，然后再取消订阅。如果是高吞吐率的消费者，最好还是建议使用basic.consume。
+
+4 . 持久化： Rabbit MQ默认是不持久队列、Exchange、Binding以及队列中的消息的，这意味着一旦消息服务器重启，所有已声明的队列，Exchange，Binding以及队列中的消息都会丢失。通过设置Exchange和MessageQueue的durable属性为true，可以使得队列和Exchange持久化，但是这还不能使得队列中的消息持久化，这需要生产者在发送消息的时候，
 
 
 
