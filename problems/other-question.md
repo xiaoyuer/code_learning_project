@@ -252,6 +252,34 @@ func merge(nums1 []int, m int, nums2 []int, n int)  {
 2. 运维复杂 在采用微服务架构时，系统由多个独立运行的微服务构成，需要一个设计良好的监控系统对各个微服务的运行状态进行监控。运维人员需要对系统有细致的了解才对够更好的运维系统。
 3. 影响性能 微服务的间通过REST、RPC等形式进行交互，通信的时延会受到较大的影响。
 
+内存分析工具 内存溢出 火焰图 
+
+### map里可以key 类型限制，value无类型限制
+
+golang中的map，的 key 可以是很多种类型，比如 bool, 数字，string, 指针, channel , 还有 只包含前面几个类型的 interface types, structs, arrays 
+
+显然，slice， map 还有 function 是不可以了，因为这几个没法用 == 来判断
+
+### GMP模型 goroutine存在哪里 
+
+### php map不是无序的，go map为什么无序 
+
+它生成了随机数。用于决定从哪里开始循环迭代。更具体的话就是根据随机数，选择一个桶位置作为起始点进行遍历迭代
+
+因此每次重新 `for range map`，你见到的结果都是不一样的。那是因为它的起始位置根本就不固定！
+
+* 从已选定的桶中开始进行遍历，寻找桶中的下一个元素进行处理
+* 如果桶已经遍历完，则对溢出桶 `overflow buckets` 进行遍历处理
+* [https://cloud.tencent.com/developer/article/1422355](https://cloud.tencent.com/developer/article/1422355)
+
+###  mongodb groupby 
+
+### mysql锁 MVCC 隔离机制的原理 mq队列如何保证都push了
+
+### mysql主从同步
+
+将评论直接推送到 rabbitMq之类的消息中间件，然后再开多进程进行消费插入mysql\(开几个根据服务器性能\)，这样负载就是可控的了
+
 
 
 
