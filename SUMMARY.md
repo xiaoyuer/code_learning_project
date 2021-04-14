@@ -145,4 +145,5 @@
 * [test](problems/test.md)
 * [Future Study](problems/future-study.md)
 * [Goland quick](problems/goland-quick.md)
+* [Pprof 火焰图](problems/pprof-huo-yan-tu.md)
 
