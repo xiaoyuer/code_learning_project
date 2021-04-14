@@ -1,5 +1,7 @@
 # Pprof 火焰图
 
+[https://slcjordan.github.io/posts/pprof/](https://slcjordan.github.io/posts/pprof/)
+
 ```text
 package main
 
