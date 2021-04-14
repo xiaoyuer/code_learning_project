@@ -368,6 +368,23 @@ b\) 另外一种方式是通过basic.get命令主动获取队列中的消息，�
 
 
 
+1. 介绍自己做过的项目，突出难点解决方案
+2. 业务配置如何热更新，不重启服务
+3. kafka比mq用的多，需要看，mq的模式fanout和direct区别，业务用的哪个
+4. Lru是不是自己实现的（去年字节直接让手撸Lru），Lru如果有多个实例怎么配置？（之前的业务场景只用了一个）
+5. redis集群：主从，哨兵模式
+6. 开源error包和errors.New的区别
+7. 微服务相关，自己封的rpc使用什么协议？http？thrift？grpc？
+8. IO多路复用：select poll epoll
+9. 网校的开源go-zero框架，我没参与。。。
+10. context用法
+11. 内存分配（想问没问，悄悄说了一句）
+12. sync和atomic，sync.pull
+
+
+
+
+
 
 
 
