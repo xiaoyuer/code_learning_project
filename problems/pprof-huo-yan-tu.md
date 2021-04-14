@@ -133,3 +133,5 @@ go tool pprof -http=:8081 ~/pprof/pprof.samples.cpu.001.pb.gz
 
 由于s1这个slice初始化容量为0,在append时,会频繁扩容,带来很大的开销,而此处容量其实是已知项。所以我们可以给他一个初始化容量
 
+可以看到runtime.growslice项已经不存在了。
+
