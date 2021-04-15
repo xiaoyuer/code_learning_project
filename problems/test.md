@@ -1,4 +1,47 @@
-# test
+# alg test
+
+### Fibbinacci数列
+
+### 链表有无环
+
+### 树（前序，中序，后序遍历）
+
+### 归并排序 冒泡排序
+
+### 开根号
+
+
+
+## 
+
+### 合并两个有序列表 从小到大
+
+```text
+func merge(nums1 []int, m int, nums2 []int, n int)  {
+	temp := make([]int, m)
+	copy(temp, nums1)
+	j, k := 0, 0
+	for i := 0; i < len(nums1); i++ {
+		if k >= n {
+			nums1[i] = temp[j]
+			j++
+			continue
+		}
+		if j >= m {
+			nums1[i] = nums2[k]
+			k++
+			continue
+		}
+		if temp[j] < nums2[k] {
+			nums1[i] = temp[j]
+			j++
+		} else {
+			nums1[i] = nums2[k]
+			k++
+		}
+	}
+}
+```
 
 ```text
 Func sort(nums []int) []int {
@@ -102,6 +145,12 @@ return true
 ```text
 SELECT * FROM t WHERE a=? AND b=? OR c=? ORDER BY d
 ```
+
+
+
+## 实际问题
+
+### 红包1元随机分给M个人
 
 
 
