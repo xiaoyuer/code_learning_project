@@ -94,3 +94,5 @@ db.article.aggregate(
 
 经过$skip管道操作符处理后，前五个文档被"过滤"掉。
 
+[https://www.runoob.com/mongodb/mongodb-aggregate.html](https://www.runoob.com/mongodb/mongodb-aggregate.html)
+
