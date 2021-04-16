@@ -1187,19 +1187,21 @@ func main() {
 3. GMP模型
 4. 线程池-》GM模型-》GPM模型演变-》调度细节
 
-闭包问题
+### 闭包问题
 
-反射问题
+### 反射问题
 
-几种算法
+### 几种算法
 
-单例模式
+### 单例模式
 
-类型元数据
+### 类型元数据
 
-OS和网络 容器 k8s 
+### OS和网络 容器 k8s 
 
 Kubernetes in Action 再看写的很烂的 cloneset advance stateful set源码（openkruise项目里）
+
+设计模式、用代码写算法、PHP数组 array\_merge与‘+’区别（现在php少，可能还会问go的），gc原理，内存池等； 应用场景设计，主要分布式复杂系统设计思路，
 
 ### 难点讲座
 

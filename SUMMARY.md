@@ -142,7 +142,7 @@
 * [What is Rule Engine](problems/why-rule-engine.md)
 * [Go Problems](problems/untitled.md)
 * [Other Question](problems/other-question.md)
-* [alg test](problems/test.md)
+* [Algorithms](problems/test.md)
 * [Future Study](problems/future-study.md)
 * [Goland quick](problems/goland-quick.md)
 * [Pprof 火焰图](problems/pprof-huo-yan-tu.md)

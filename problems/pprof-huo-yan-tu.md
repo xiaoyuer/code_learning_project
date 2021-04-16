@@ -1,6 +1,12 @@
 # Pprof 火焰图
 
-[https://slcjordan.github.io/posts/pprof/](https://slcjordan.github.io/posts/pprof/)
+{% embed url="https://slcjordan.github.io/posts/pprof/" %}
+
+pprof+Gin [https://yuerblog.cc/2020/03/02/golang%E5%88%9B%E5%BB%BA%E5%A4%A7%E9%87%8F%E7%BA%BF%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/](https://yuerblog.cc/2020/03/02/golang%E5%88%9B%E5%BB%BA%E5%A4%A7%E9%87%8F%E7%BA%BF%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/)
+
+
+
+网络（TCP：滑动窗口、快重传、慢启动（二进制退避算法）、分包、拆包问题、MAC头、IP头、tcp头、http的keepalive--http1.1默认开启了keepalive、https握手过程、http2原理、DNS原理、CDN原理 、http状态码含义，出现4XX，5XX如何定位问题）、http头包含哪些东西，http的chunk模式是啥；
 
 ```text
 package main
