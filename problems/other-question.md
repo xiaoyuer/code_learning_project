@@ -2,6 +2,41 @@
 
 ### 项目架构介绍
 
+cmd \| 入口 admin \| 管理端 rpc \| 远程调用 conf \| 配置中心 routes \| 路由层 controller\| 控制层 service \| 服务层 model \| 模型层 dao \| 数据层 lib \| 工具库 vendor \| 依赖库 Makefile \| 构建脚本 version.sh\| 版本输出构建脚本
+
+> config:  
+> 1\)配置文件批量加载到内存，并设置文件监听及时更新  
+> 2\)通过/conf/confType中对应方法解析到配置map结构  
+> 3\)配置文件根据环境进行了文件夹拆分  
+> dao:  
+> 1\)mysql\(exp ~~opc test~~\)  
+> 2\)memcache  
+> 3\)redis  
+> 4\)rabbitMQ  
+> 5\)LRU  
+> xesSdk:  
+> 1\)prelogid,traceid,rpcid  
+> router:  
+> 1\)自定义中间件，跨域，权鉴，日志，耗时，异常处理等  
+> 2\)/admin/xxxxx系列接口  
+> falcon:  
+> 1\)port: 1988, uri: /v1/push  
+> 2\)prefix: exp.release.  
+> 3\)module: {.rpc,.admin,.AutoLive,.operation}  
+> 4\)index: {latency,qps,qps.all}
+
+> routes:  
+> 1\)自定义中间件，跨域，权鉴，日志，耗时，异常处理等  
+> 2\)/operation/pc/xxxxx系列接口  
+> 3\)/operation/mobile/xxxxx系列接口  
+> 4\)/operation/spread/xxxxx系列接口  
+> 5\)/operation/crm/xxxxx系列接口  
+> 6\)/operation/common/xxxxx系列接口  
+> 7\)/science/AutoLive/xxxxx系列接口  
+> 8\)/science/AutoLive/teacher/xxxxx系列接口  
+> 9\)/rpc/xxxxx系列接口  
+> 10\)/debug/pprof/xxxxx系列接口
+
 ## Mysql
 
 [https://zronghui.github.io/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4-MYSQL45%E8%AE%B2-%E7%AC%94%E8%AE%B0.html](https://zronghui.github.io/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4-MYSQL45%E8%AE%B2-%E7%AC%94%E8%AE%B0.html)
