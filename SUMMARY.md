@@ -131,8 +131,6 @@
 
 ## The Way to Go <a id="the-way-to-go-1"></a>
 
-* [Untitled](the-way-to-go-1/untitled.md)
-
 ## Docker
 
 * [Practice](docker/practice.md)
