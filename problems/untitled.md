@@ -464,6 +464,10 @@ select {
 
 **channel的核心是数据流动，关注到并发问题中的数据流动，把流动的数据放到channel中，就能使用channel解决这个并发问题**。这个思路是从Go语言的核心开发者的演讲中学来的，然而视频我已经找不到了，不然直接共享给大家，他提到了Golang并发的核心实践的4个点：
 
+DataFlow -&gt; Drawing -&gt; Pipieline -&gt; Exiting
+
+[https://segmentfault.com/a/1190000017890174](https://segmentfault.com/a/1190000017890174)
+
 ### defer中插入函数的执行顺序
 
 defer 压入栈的是值，如果为函数，则可以修改变量值
