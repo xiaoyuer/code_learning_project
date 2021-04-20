@@ -469,7 +469,7 @@ meeting room 252
 
 求x的n次方（二分 递归）
 
-### 进程间通信
+## 进程间通信
 
 **第一类：传统的Unix通信机制**  
  **1. 管道/匿名管道\(pipe\)**
@@ -614,11 +614,95 @@ meeting room 252
 **客户端**  
  （1）客户应用程序首先调用socket来创建一个未命名的套接字，然后将服务器的命名套接字作为一个地址来调用connect与服务器建立连接。  
  （2）一旦连接建立，我们就可以像使用底层的文件描述符那样用套接字来实现双向数据的通信（通过流进行数据传输）。  
+
+
+## CPU密集型（CPU-bound）
+
+CPU密集型也叫计算密集型，指的是系统的硬盘、内存性能相对CPU要好很多，此时，系统运作大部分的状况是CPU Loading 100%，CPU要读/写I/O\(硬盘/内存\)，I/O在很短的时间就可以完成，而CPU还有许多运算要处理，CPU Loading很高。
+
+在多重程序系统中，大部份时间用来做计算、逻辑判断等CPU动作的程序称之CPU bound。例如一个计算圆周率至小数点一千位以下的程序，在执行的过程当中绝大部份时间用在三角函数和开根号的计算，便是属于CPU bound的程序。
+
+CPU bound的程序一般而言CPU占用率相当高。这可能是因为任务本身不太需要访问I/O设备，也可能是因为程序是多线程实现因此屏蔽掉了等待I/O的时间。
+
+#### IO密集型（I/O bound）
+
+IO密集型指的是系统的CPU性能相对硬盘、内存要好很多，此时，系统运作，大部分的状况是CPU在等I/O \(硬盘/内存\) 的读/写操作，此时CPU Loading并不高。
+
+I/O bound的程序一般在达到性能极限时，CPU占用率仍然较低。这可能是因为任务本身需要大量I/O操作，而pipeline做得不是很好，没有充分利用处理器能力。  
+[https://jiang.ma/2019/01/28/golang-advantags-when-facing-networking-io-bound-situation.html](https://jiang.ma/2019/01/28/golang-advantags-when-facing-networking-io-bound-situation.html)
+
+go中，io密集型的应用，比如有很多文件io，磁盘io，网络io，调大GOMAXPROCS，会不会对性能有帮助？为什么？  
+ 福哥答案2021-03-05：
+
+这是面试中被问到的。实力有限，真正的答案还不知道。
+
+答案1：  
+ 调节这个参数影响的是P的个数，也就影响了M（线程）干活的个数。相当于你可以有更多的执行线程。  
+ 先以网络io来说，网络io 在golang 里面是异步的，用epoll池做的io复用。每个网络调用其实都是异步的，发数据给到内存，调度权就可以让给其他goroutine了，所以，其实一个线程能处理过来的话，性能是不会差的，这个时候你加多P其实提升不大。只有你单线程处理不过来这些网络io的时候（每个都处理很慢），加多P才有明显提升  
+ 如果是磁盘io的话，这个有点特殊，磁盘io不是异步的，没有aio这种方式。所以你的磁盘io调用下去就卡住M了，这个时候等sysmon发现系统调用超时才会抢占M，这一来回就耗费时间了，所以，这种情况下你干活的M多一点确实能带来一些性能的提升，相当于并行干活的M多一些。  
+ 无论哪种情况，P的个数都不建议超过本机cpu的个数。因为多个cpu才是真正的并行执行，上层都是通过调度切换模拟出来的。
+
+答案2：  
+ GOMAXPROCS 用默认的，就是CPU的硬件线程数目，  
+ 对于大部分IO密集的应用是不合适的。  
+ 至少应该配置到硬件线程数目的5倍以上, 最大256。  
+ GO的调度器是迟钝的，它很可能什么时都没做，直到M阻塞了想当长时间以后，才会发现有一个P/M被syscall阻塞了。然后，才会用空闲的M来强这个P。  
+ 补充说明：调度器迟钝不是M迟钝，M也就是操作系统线程，是非常的敏感的，只要阻塞就会被操作系统调度（除了极少数自旋的情况）。但是GO的调度器会等待一个时间间隔才会行动，这也是为了减少调度器干预的次数。也就是说，如果一个M调用了什么API导致了操作系统线程阻塞了，操作系统立刻会把这个线程M调度走，挂起等阻塞解除。这时候，Go调度器不会马上把这个M持有的P抢走。这就会导致一定的P被浪费了。  
+ 这就是为何，GOMAXPROCS 太小，也就是P的数量太少，会导致IO密集\(或者syscall较多\)的go程序运行缓慢的原因。  
+ 那么，GOMAXPROCS 很大，超过硬件线程的8倍，会不会有开销呢？  
+ 答案是，开销是有的，但是远小于Go运行时迟钝的调度M来抢夺P而导致CPU利用不足的开销。  
   
-作者：TyiMan  
-链接：https://www.jianshu.com/p/c1015f5ffa74  
-来源：简书  
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+[https://jiang.ma/2019/01/28/golang-advantags-when-facing-networking-io-bound-situation.html](https://jiang.ma/2019/01/28/golang-advantags-when-facing-networking-io-bound-situation.html)
+
+## gin路由
+
+定义了两个路由 `/user/get`，`/user/delete`，则会构造出拥有三个节点的路由树，根节点是 `user`，两个子节点分别是 `get` `delete`。
+
+上述是一种实现路由树的方式，且比较直观，容易理解。对 url 进行切分、比较，时间复杂度是 `O(2n)`。
+
+Gin的路由实现使用了类似前缀树的数据结构，只需遍历一遍字符串即可，时间复杂度为`O(n)`。
+
+当然，对于一次 http 请求来说，这点路由寻址优化可以忽略不计。
+
+#### Engine <a id="item-1"></a>
+
+`Gin` 的 `Engine` 结构体内嵌了 `RouterGroup` 结构体，定义了 `GET`，`POST` 等路由注册方法。
+
+`Engine` 中的 `trees` 字段定义了路由逻辑。`trees` 是 `methodTrees` 类型（其实就是 `[]methodTree`），`trees` 是一个数组，不同请求方法的路由在不同的树（`methodTree`）中。
+
+最后，`methodTree` 中的 `root` 字段（`*node`类型）是路由树的根节点。树的构造与寻址都是在 `*node`的方法中完成的。
+
+UML 结构图  
+![engine&#x7ED3;&#x6784;&#x56FE;](https://segmentfault.com/img/bVbh2X1?w=1374&h=774)
+
+`trees` 是个数组，数组里会有不同请求方法的路由树。
+
+![tree&#x7ED3;&#x6784;](https://segmentfault.com/img/bVbh2Yc?w=1356&h=320)
+
+#### node <a id="item-2"></a>
+
+node 结构体定义如下
+
+```text
+type node struct {
+    path      string           // 当前节点相对路径（与祖先节点的 path 拼接可得到完整路径）
+    indices   string           // 所以孩子节点的path[0]组成的字符串
+    children  []*node          // 孩子节点
+    handlers  HandlersChain    // 当前节点的处理函数（包括中间件）
+    priority  uint32           // 当前节点及子孙节点的实际路由数量
+    nType     nodeType         // 节点类型
+    maxParams uint8            // 子孙节点的最大参数数量
+    wildChild bool             // 孩子节点是否有通配符（wildcard）
+}
+```
+
+**path 和 indices**
+
+关于 `path` 和 `indices`，其实是使用了前缀树的逻辑。
+
+举个栗子：  
+如果我们有两个路由，分别是 `/index`，`/inter`，则根节点为 `{path: "/in", indices: "dt"...}`，两个子节点为`{path: "dex", indices: ""}，{path: "ter", indices: ""}`  
+
 
 
 
