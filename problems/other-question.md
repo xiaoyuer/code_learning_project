@@ -180,6 +180,14 @@ MySQL原理（事务隔离级别、mvcc机制原理、B+树（每个节点一般
 
 ### http的chunk模式是啥
 
+当客户端向服务器请求一个静态页面或者一张图片时，服务器可以很清楚的知道内容大小，然后通过Content-Length消息首部字段告诉客户端需要接收多少数据。但是如果是动态页面等时，服务器是不可能预先知道内容大小，这时就可以使用Transfer-Encoding：chunk模式来传输数据了。即如果要一边产生数据，一边发给客户端，服务器就需要使用"Transfer-Encoding: chunked"这样的方式来代替Content-Length。
+
+在进行chunked编码传输时，在回复消息的头部有Transfer-Encoding: chunked
+
+编码使用若干个chunk组成，由一个标明长度为0的chunk结束。每个chunk有两部分组成，第一部分是该chunk的长度，第二部分就是指定长度的内容，每个部分用CRLF隔开。在最后一个长度为0的chunk中的内容是称为footer的内容，是一些没有写的头部内容。
+
+
+
 ## IO多路复用
 
 ### poll / epoll
