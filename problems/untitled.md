@@ -577,6 +577,14 @@ func main() {
 }
 ```
 
+### map类型限制 map里key 类型限制，value无类型限制
+
+golang中的map，的 key 可以是很多种类型，比如 bool, 数字，string, 指针, channel , 还有 只包含前面几个类型的 interface types, structs, arrays 
+
+显然，slice， map 还有 function 是不可以了，因为这几个没法用 == 来判断
+
+
+
 ### chan缓存池
 
 [https://blog.csdn.net/zaimeiyeshicengjing/article/details/106124095](https://blog.csdn.net/zaimeiyeshicengjing/article/details/106124095)
@@ -1167,18 +1175,25 @@ func main() {
 }
 ```
 
-1. 结构体源码
-2. 创建channel
-3. 读取数据
-4. channel close关闭channel源码分析
+## channel
 
-### mutex锁
+### 结构体源码
 
-1. 基本接口
-2. 两种模式
-3. 信号量概念
-4. 加锁
-5. 解锁
+### 创建channel
+
+### 读取数据
+
+### channel close关闭channel源码分析
+
+## mutex锁
+
+### 基本接口
+
+### 两种模式
+
+1. 信号量概念
+2. 加锁
+3. 解锁
 
 ### GMP模型内存管理（goroutine）
 
@@ -1186,6 +1201,8 @@ func main() {
 2. 阻塞式IO和非阻塞式IO，IO多路复用
 3. GMP模型
 4. 线程池-》GM模型-》GPM模型演变-》调度细节
+
+### GMP模型 goroutine存在哪里 
 
 ### 闭包问题
 
