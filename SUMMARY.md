@@ -109,6 +109,7 @@
 
 ## Blogers <a id="the-way-to-go"></a>
 
+* [哎呀教程](the-way-to-go/ai-ya-jiao-cheng.md)
 * [Da-Kuan-Kuan](the-way-to-go/chap1.md)
 * [Uglee](the-way-to-go/uglee.md)
 * [MicroService](the-way-to-go/microservice.md)
