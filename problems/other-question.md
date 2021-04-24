@@ -2,6 +2,8 @@
 
 ## 项目架构介绍
 
+
+
 ## Mysql
 
 [https://zronghui.github.io/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4-MYSQL45%E8%AE%B2-%E7%AC%94%E8%AE%B0.html](https://zronghui.github.io/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4-MYSQL45%E8%AE%B2-%E7%AC%94%E8%AE%B0.html)
@@ -184,7 +186,17 @@ select * from table_name limit 10000,10
 
 ### lru算法实现
 
+### redis缓存雪崩问题
 
+锁加数据库同步
+
+本地锁，分布式锁，数据库锁，大规模线程阻塞，服务器线程被耗尽，服务不可用
+
+### redis和mysql数据同步
+
+
+
+## HashTable
 
 ### Hash碰撞
 
