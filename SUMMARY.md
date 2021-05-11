@@ -19,6 +19,7 @@
 * [context Go语言库标准](effective-go/context-go-yu-yan-ku-biao-zhun.md)
 * [Go泛型](effective-go/go-fan-xing.md)
 * [Channel](effective-go/channel.md)
+* [golang map](effective-go/golang-map.md)
 
 ## 并行
 
