@@ -5,7 +5,6 @@
 ## ALgs
 
 * [Practice](algs/ke-yi-lian-xi.md)
-* [algs](algs/algs.md)
 
 ---
 
