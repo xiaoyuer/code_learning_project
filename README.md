@@ -6,4 +6,5 @@
 * [ ] shell grep and sed
 * [ ] shell function
 * [ ] 高速缓存
+* [ ] 模式设计
 
