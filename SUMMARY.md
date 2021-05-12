@@ -105,7 +105,6 @@
 * [Other Question](problems/other-question.md)
 * [微服务](problems/wei-fu-wu.md)
 * [Future Study](problems/future-study.md)
-* [Goland quick](problems/goland-quick.md)
 * [Pprof 火焰图](problems/pprof-huo-yan-tu.md)
 * [MongoDB](problems/mongodb.md)
 * [分布式](problems/fen-bu-shi.md)
