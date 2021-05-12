@@ -24,9 +24,6 @@
 * [go module原理](effective-go/go-module-yuan-li.md)
 * [context Go语言库标准](effective-go/context-go-yu-yan-ku-biao-zhun.md)
 * [Go泛型](effective-go/go-fan-xing.md)
-* [Channel map sync.pool](effective-go/channel.md)
-* [golang map](effective-go/golang-map.md)
-* [sync.pool](effective-go/sync.pool.md)
 
 ## 高度缓存与一致性
 
