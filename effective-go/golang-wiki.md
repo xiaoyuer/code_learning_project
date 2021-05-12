@@ -1,5 +1,21 @@
 # Golang wiki
 
+{% embed url="https://studygolang.com/articles/20714" %}
+
+{% embed url="https://studygolang.com/articles/27421" %}
+
+{% embed url="https://segmentfault.com/a/1190000039101378" %}
+
+
+
+{% embed url="https://draveness.me/golang/docs/part2-foundation/ch03-datastructure/golang-hashmap/" %}
+
+## sync.pool
+
+{% embed url="https://geektutu.com/post/hpg-sync-pool.html" %}
+
+
+
 {% embed url="https://github.com/golang/go/wiki\#learning-more-about-go" %}
 
 {% embed url="https://github.com/golang/go/wiki/LearnConcurrency" %}

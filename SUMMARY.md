@@ -10,14 +10,21 @@
 * [Algorithms](algs/test.md)
 * [concurrent](algs/an-xu-da-yin.md)
 
+## Go-Basic
+
+* [Why Go-Key advantages](go-basic/why-go-key-advantages.md)
+* [Concurrent programming](go-basic/untitled.md)
+* [协程（goroutine）与通道（channel）](go-basic/xie-cheng-goroutine-yu-tong-dao-channel.md)
+* [Go Code Test BenchMark](go-basic/go-code-test-benchmark.md)
+* [Docker](go-basic/practice.md)
+
 ## Go-Expert <a id="effective-go"></a>
 
 * [Golang wiki](effective-go/golang-wiki.md)
-* [gc垃圾回收](effective-go/gc-la-ji-hui-shou.md)
 * [go module原理](effective-go/go-module-yuan-li.md)
 * [context Go语言库标准](effective-go/context-go-yu-yan-ku-biao-zhun.md)
 * [Go泛型](effective-go/go-fan-xing.md)
-* [Channel](effective-go/channel.md)
+* [Channel map sync.pool](effective-go/channel.md)
 * [golang map](effective-go/golang-map.md)
 * [sync.pool](effective-go/sync.pool.md)
 
@@ -49,14 +56,6 @@
 * [Linux Basic Command](http-https/2-basic-set-implementations.md)
 * [关系型数据库](http-https/guan-xi-xing-shu-ju-ku.md)
 * [compile](http-https/untitled.md)
-
-## Go-Basic
-
-* [Why Go-Key advantages](go-basic/why-go-key-advantages.md)
-* [Concurrent programming](go-basic/untitled.md)
-* [协程（goroutine）与通道（channel）](go-basic/xie-cheng-goroutine-yu-tong-dao-channel.md)
-* [Go Code Test BenchMark](go-basic/go-code-test-benchmark.md)
-* [Docker](go-basic/practice.md)
 
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
 
