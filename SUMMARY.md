@@ -21,8 +21,6 @@
 * [golang map](effective-go/golang-map.md)
 * [sync.pool](effective-go/sync.pool.md)
 
-## 并行
-
 ## 高度缓存与一致性
 
 * [cache原理](gao-du-huan-cun-yu-yi-zhi-xing/cache-yuan-li.md)
@@ -41,19 +39,11 @@
 * [编译乱序](gao-du-huan-cun-yu-yi-zhi-xing/bian-yi-luan-xu.md)
 * [如何使用屏障指令](gao-du-huan-cun-yu-yi-zhi-xing/ru-he-shi-yong-ping-zhang-zhi-ling.md)
 
-## IO多路复用
+## IO多路复用-并行-进程-协程 <a id="io-duo-lu-fu-yong"></a>
 
 * [进程和线程](io-duo-lu-fu-yong/jin-cheng-he-xian-cheng.md)
-* [出于什么样的原因，诞生了「协程」这一概念？](io-duo-lu-fu-yong/chu-yu-shen-me-yang-de-yuan-yin-dan-sheng-le-xie-cheng-zhe-yi-gai-nian.md)
-* [java的多线程不选择协程](io-duo-lu-fu-yong/java-de-duo-xian-cheng-bu-xuan-ze-xie-cheng.md)
-* [进程线程和协程](io-duo-lu-fu-yong/jin-cheng-xian-cheng-he-xie-cheng.md)
-* [并发与并行的区别](io-duo-lu-fu-yong/bing-fa-yu-bing-hang-de-qu-bie.md)
-* [IO 多路复用是什么意思？](io-duo-lu-fu-yong/untitled.md)
-* [Linux下I/O多路复用系统调用\(select, poll, epoll\)介绍](io-duo-lu-fu-yong/linux-xia-io-duo-lu-fu-yong-xi-tong-tiao-yong-select-poll-epoll-jie-shao.md)
-* [Epoll的本质](io-duo-lu-fu-yong/epoll-de-ben-zhi.md)
-* [如何理解：程序、进程、线程、并发、并行、高并发？](io-duo-lu-fu-yong/ru-he-li-jie-cheng-xu-jin-cheng-xian-cheng-bing-fa-bing-hang-gao-bing-fa.md)
 
-## Http/Https
+## Http/Https/Tcp <a id="http-https"></a>
 
 * [Get和Post区别](http-https/get-he-post-qu-bie.md)
 
