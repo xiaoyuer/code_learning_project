@@ -1,5 +1,9 @@
 # 工厂模式（factory Method）的本质是什么？为什么引入工厂模式？
 
+
+
+{% embed url="https://medium.com/swlh/design-patterns-smalltalk-and-the-lost-art-of-reading-code-1727d93fd7fa" %}
+
 很多人都会纠结于“既然都有了构造函数，何必再折腾那么多事情呢”。为了解答这个问题，先解释下构造函数是干什么用的。
 
 先用最早出现的C，创建资源差不多要这么干:

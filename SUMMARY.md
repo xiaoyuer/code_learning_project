@@ -62,7 +62,6 @@
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
 
 * [工厂模式（factory Method）的本质是什么？为什么引入工厂模式？](mo-shi-shi-bie/untitled.md)
-* [Bloggers](mo-shi-shi-bie/bloggers.md)
 
 ## Compile Basics <a id="bian-yi-yuan-li"></a>
 
