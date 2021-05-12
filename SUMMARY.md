@@ -56,6 +56,8 @@
 * [Why Go-Key advantages](go-basic/why-go-key-advantages.md)
 * [Concurrent programming](go-basic/untitled.md)
 * [协程（goroutine）与通道（channel）](go-basic/xie-cheng-goroutine-yu-tong-dao-channel.md)
+* [Go Code Test BenchMark](go-basic/go-code-test-benchmark.md)
+* [Docker](go-basic/practice.md)
 
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
 
@@ -79,19 +81,7 @@
 * [Career guide-GIT](the-way-to-go/career-guide-git.md)
 * [Medium Vincent Blanchon Golang Guide](the-way-to-go/medium-vincent-blanchon-golang-guide.md)
 * [draveness golang Go 语言设计与实现](the-way-to-go/draveness-golang-go-yu-yan-she-ji-yu-shi-xian.md)
-
-## Guides
-
-* [技术团队有哪些一开始就一定要严格执行的开发规范？](guides/ji-shu-tuan-dui-you-na-xie-yi-kai-shi-jiu-yi-ding-yao-yan-ge-zhi-hang-de-kai-fa-gui-fan.md)
-* [Go Code Test BenchMark](guides/go-code-test-benchmark.md)
-
-## Shell
-
-## The Way to Go <a id="the-way-to-go-1"></a>
-
-## Docker
-
-* [Practice](docker/practice.md)
+* [技术团队有哪些一开始就一定要严格执行的开发规范？](the-way-to-go/ji-shu-tuan-dui-you-na-xie-yi-kai-shi-jiu-yi-ding-yao-yan-ge-zhi-hang-de-kai-fa-gui-fan.md)
 
 ## Problems
 
