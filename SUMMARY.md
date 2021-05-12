@@ -8,6 +8,7 @@
 * [数组 链表 跳表](algs/shu-zu-lian-biao-tiao-biao.md)
 * [bash](algs/bash.md)
 * [Algorithms](algs/test.md)
+* [按序打印](algs/an-xu-da-yin.md)
 
 ## Effective Go
 
@@ -19,10 +20,6 @@
 * [Channel](effective-go/channel.md)
 * [golang map](effective-go/golang-map.md)
 * [sync.pool](effective-go/sync.pool.md)
-
-## 并行
-
-* [按序打印](bing-hang/an-xu-da-yin.md)
 
 ## 高度缓存与一致性
 
