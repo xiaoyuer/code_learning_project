@@ -4,12 +4,10 @@
 
 ## ALgs
 
-* [Practice](algs/ke-yi-lian-xi.md)
-
----
-
-* [数组 链表 跳表](shu-zu-lian-biao-tiao-biao.md)
-* [bash](bash.md)
+* [Vscode Practice](algs/ke-yi-lian-xi.md)
+* [数组 链表 跳表](algs/shu-zu-lian-biao-tiao-biao.md)
+* [bash](algs/bash.md)
+* [Algorithms](algs/test.md)
 
 ## Effective Go
 
@@ -20,6 +18,7 @@
 * [Go泛型](effective-go/go-fan-xing.md)
 * [Channel](effective-go/channel.md)
 * [golang map](effective-go/golang-map.md)
+* [sync.pool](effective-go/sync.pool.md)
 
 ## 并行
 
@@ -142,7 +141,6 @@
 * [Go Problems](problems/untitled.md)
 * [Other Question](problems/other-question.md)
 * [微服务](problems/wei-fu-wu.md)
-* [Algorithms](problems/test.md)
 * [Future Study](problems/future-study.md)
 * [Goland quick](problems/goland-quick.md)
 * [Pprof 火焰图](problems/pprof-huo-yan-tu.md)
