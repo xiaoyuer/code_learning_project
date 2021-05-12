@@ -5,7 +5,7 @@
 ## ALgs
 
 * [Vscode Practice](algs/ke-yi-lian-xi.md)
-* [数组 链表 跳表](algs/shu-zu-lian-biao-tiao-biao.md)
+* [Array List BinaryTree](algs/shu-zu-lian-biao-tiao-biao.md)
 * [bash](algs/bash.md)
 * [Algorithms](algs/test.md)
 * [按序打印](algs/an-xu-da-yin.md)
