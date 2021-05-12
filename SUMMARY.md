@@ -10,7 +10,7 @@
 * [Algorithms](algs/test.md)
 * [按序打印](algs/an-xu-da-yin.md)
 
-## Effective Go
+## Go-Expert <a id="effective-go"></a>
 
 * [Golang wiki](effective-go/golang-wiki.md)
 * [gc垃圾回收](effective-go/gc-la-ji-hui-shou.md)
@@ -54,16 +54,6 @@
 ## Go-Basic
 
 * [Why Go-Key advantages](go-basic/why-go-key-advantages.md)
-* [Type, value and equality of interfaces](go-basic/type-value-and-equality-of-interfaces.md)
-* [Create, initialize and compare structs](go-basic/create-initialize-and-compare-structs.md)
-* [Maps explained: create, add, get, delete](go-basic/maps-explained-create-add-get-delete.md)
-* [5 basic for loop patterns](go-basic/5-basic-for-loop-patterns.md)
-* [5 switch statement patterns](go-basic/5-switch-statement-patterns.md)
-* [Packages explained: declare, import, download, document](go-basic/packages-explained-declare-import-download-document.md)
-* [27 Go Gotcha Ninja Pitfalls](go-basic/27-go-gotcha-ninja-pitfalls.md)
-* [Go Tutorial](go-basic/go-tutorial.md)
-* [CheetSheet](go-basic/cheetsheet.md)
-* [Go Code For Common Tasks](go-basic/2-basic-fifo-queue-implementations.md)
 * [Concurrent programming](go-basic/untitled.md)
 * [协程（goroutine）与通道（channel）](go-basic/xie-cheng-goroutine-yu-tong-dao-channel.md)
 * [Object-oriented programming without inheritance](go-basic/untitled-1.md)
