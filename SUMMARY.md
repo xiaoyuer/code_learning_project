@@ -21,6 +21,8 @@
 * [golang map](effective-go/golang-map.md)
 * [sync.pool](effective-go/sync.pool.md)
 
+## 并行
+
 ## 高度缓存与一致性
 
 * [cache原理](gao-du-huan-cun-yu-yi-zhi-xing/cache-yuan-li.md)
