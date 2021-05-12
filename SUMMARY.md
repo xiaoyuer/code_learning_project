@@ -87,10 +87,6 @@
 
 ## Shell
 
-* [Grep and Sed](shell/grep-and-sed.md)
-* [AWK](shell/awk.md)
-* [Shell Variable and Command Line](shell/shell-variable-and-command-line.md)
-
 ## The Way to Go <a id="the-way-to-go-1"></a>
 
 ## Docker
