@@ -53,10 +53,7 @@
 * [Linux Basic Command](http-https/2-basic-set-implementations.md)
 * [关系型数据库](http-https/guan-xi-xing-shu-ju-ku.md)
 * [compile](http-https/untitled.md)
-
-## Pattern Design <a id="mo-shi-shi-bie"></a>
-
-* [工厂模式（factory Method）的本质是什么？为什么引入工厂模式？](mo-shi-shi-bie/untitled.md)
+* [工厂模式（factory Method）的本质是什么？为什么引入工厂模式？](http-https/untitled-1.md)
 
 ## Blogers <a id="the-way-to-go"></a>
 
