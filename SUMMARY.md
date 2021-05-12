@@ -56,22 +56,6 @@
 * [Why Go-Key advantages](go-basic/why-go-key-advantages.md)
 * [Concurrent programming](go-basic/untitled.md)
 * [协程（goroutine）与通道（channel）](go-basic/xie-cheng-goroutine-yu-tong-dao-channel.md)
-* [Object-oriented programming without inheritance](go-basic/untitled-1.md)
-* [Functional Programming](go-basic/functional-programming.md)
-* [Scripting](go-basic/scripting.md)
-* [Strings](go-basic/strings.md)
-* [Maps](go-basic/maps.md)
-* [Slice and Arrays](go-basic/slice-and-arrays.md)
-* [Files](go-basic/files.md)
-* [Time and Date](go-basic/time-and-date.md)
-* [Random Numbers](go-basic/random-numbers.md)
-* [Language Basics](go-basic/language-basics.md)
-* [Statements](go-basic/statements.md)
-* [Expressions](go-basic/expressions.md)
-* [Methods and Interfaces](go-basic/methods-and-interfaces.md)
-* [Error Handling](go-basic/error-handling.md)
-* [Bits and Pieces](go-basic/bits-and-pieces.md)
-* [Standard Library](go-basic/standard-library.md)
 
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
 
