@@ -8,7 +8,7 @@
 * [Array List BinaryTree](algs/shu-zu-lian-biao-tiao-biao.md)
 * [bash](algs/bash.md)
 * [Algorithms](algs/test.md)
-* [按序打印](algs/an-xu-da-yin.md)
+* [concurrent](algs/an-xu-da-yin.md)
 
 ## Go-Expert <a id="effective-go"></a>
 
@@ -43,13 +43,12 @@
 
 * [进程和线程](io-duo-lu-fu-yong/jin-cheng-he-xian-cheng.md)
 
-## Http/Https/Tcp <a id="http-https"></a>
+## Computer-Basic <a id="http-https"></a>
 
-* [Get和Post区别](http-https/get-he-post-qu-bie.md)
-
-## Database
-
-* [关系型数据库](database/guan-xi-xing-shu-ju-ku.md)
+* [Http/Https/Tcp](http-https/get-he-post-qu-bie.md)
+* [Linux Basic Command](http-https/2-basic-set-implementations.md)
+* [关系型数据库](http-https/guan-xi-xing-shu-ju-ku.md)
+* [compile](http-https/untitled.md)
 
 ## Go-Basic
 
@@ -62,14 +61,6 @@
 ## Pattern Design <a id="mo-shi-shi-bie"></a>
 
 * [工厂模式（factory Method）的本质是什么？为什么引入工厂模式？](mo-shi-shi-bie/untitled.md)
-
-## Compile Basics <a id="bian-yi-yuan-li"></a>
-
-* [Books](bian-yi-yuan-li/untitled.md)
-
-## Linux <a id="go-code-for-common-tasks"></a>
-
-* [Basic Command](go-code-for-common-tasks/2-basic-set-implementations.md)
 
 ## Blogers <a id="the-way-to-go"></a>
 
