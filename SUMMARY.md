@@ -14,9 +14,9 @@
 
 * [Why Go-Key advantages](go-basic/why-go-key-advantages.md)
 * [Concurrent programming](go-basic/untitled.md)
-* [协程（goroutine）与通道（channel）](go-basic/xie-cheng-goroutine-yu-tong-dao-channel.md)
 * [Go Code Test BenchMark](go-basic/go-code-test-benchmark.md)
 * [Docker](go-basic/practice.md)
+* [Basic-Example](go-basic/basic-example.md)
 
 ## Go-Expert <a id="effective-go"></a>
 
