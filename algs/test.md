@@ -17,10 +17,6 @@
 ### 开根号
 
   
-p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'}  
-p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; min-height: 15.0px}  
-p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'PingFang SC'}  
-span.s1 {font: 13.0px 'Helvetica Neue'}  
 
 
 array：
