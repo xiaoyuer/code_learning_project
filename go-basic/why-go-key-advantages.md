@@ -206,24 +206,9 @@ fmt.Println(x.String()) // 24 °C
 
 x = &Point{1, 2}
 fmt.Println(x.String()) // (1,2)
-
 ```
 
-### Structural typing <a id="structural-typing"></a>
-
-> A type implements an interface by implementing its methods. No explicit declaration is required.
-
-In fact, the `Temp`, `*Temp` and `*Point` types also implement the standard library [`fmt.Stringer`](https://golang.org/pkg/fmt/#Stringer) interface. The `String` method in this interface is used to print values passed as an operand to functions such as [`fmt.Println`](https://golang.org/pkg/fmt/#Println).
-
-```text
-var x MyStringer
-
-x = Temp(24)
-fmt.Println(x) // 24 °C
-
-x = &Point{1, 2}
-fmt.Println(x) // (1,2)
-```
+### 接口的意义：x定义后可以是任意方法实现
 
 ### The empty interface <a id="the-empty-interface"></a>
 
@@ -370,8 +355,6 @@ fmt.Println(d1 == d2) // false
 ```
 
 ## Maps explained: create, add, get, delete
-
-
 
 ### Create a new map <a id="create-a-new-map"></a>
 
@@ -817,8 +800,6 @@ m := make(map[string]float64)
 m["pi"] = 3.1416
 ```
 
-
-
 ## 2.Invalid memory address or nil pointer dereference
 
 Why does this program panic?
@@ -875,11 +856,7 @@ func main() {
 
 See [Pointers](https://yourbasic.org/golang/pointers-explained/) for more about pointers in Go.
 
-
-
 ## 3.Multiple-value in single-value context
-
-
 
 Why does this code give a compile error?
 
@@ -916,8 +893,6 @@ You can use the [blank identifier](https://yourbasic.org/golang/underscore/) to 
 m := map[string]float64{"pi": 3.1416}
 _, exists := m["pi"] // exists == true
 ```
-
-
 
 ## 4.Array won’t change
 
